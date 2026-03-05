@@ -1,62 +1,28 @@
-import { useState } from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import Layout from "@/components/Layout";
 import AnimatedSection from "@/components/AnimatedSection";
-import { toast } from "sonner";
-import { z } from "zod";
-import { Mail, MapPin, Globe, Calendar } from "lucide-react";
-
-const contactSchema = z.object({
-  name: z.string().trim().min(1, "Name is required").max(100),
-  email: z.string().trim().email("Please enter a valid email").max(255),
-  phone: z.string().trim().max(20).optional(),
-  organization: z.string().trim().max(200).optional(),
-  service: z.string().optional(),
-  message: z.string().trim().min(1, "Message is required").max(2000),
-});
-
-type ContactForm = z.infer<typeof contactSchema>;
+import { Mail, MapPin, Globe, Calendar, BookOpen } from "lucide-react";
 
 const Contact = () => {
-  const [form, setForm] = useState<ContactForm>({
-    name: "",
-    email: "",
-    phone: "",
-    organization: "",
-    service: "",
-    message: "",
-  });
-  const [errors, setErrors] = useState<Partial<Record<keyof ContactForm, string>>>({});
-  const [submitting, setSubmitting] = useState(false);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-    setErrors({ ...errors, [e.target.name]: undefined });
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const result = contactSchema.safeParse(form);
-    if (!result.success) {
-      const fieldErrors: Partial<Record<keyof ContactForm, string>> = {};
-      result.error.errors.forEach((err) => {
-        const field = err.path[0] as keyof ContactForm;
-        fieldErrors[field] = err.message;
-      });
-      setErrors(fieldErrors);
+  useEffect(() => {
+    const scriptSrc = "https://tally.so/widgets/embed.js";
+    if (document.querySelector(`script[src="${scriptSrc}"]`)) {
+      if (typeof (window as any).Tally !== "undefined") {
+        (window as any).Tally.loadEmbeds();
+      }
       return;
     }
-    setSubmitting(true);
-    // Simulate submission
-    await new Promise((r) => setTimeout(r, 1000));
-    setSubmitting(false);
-    toast.success("Message sent! We'll be in touch within 24 business hours.");
-    setForm({ name: "", email: "", phone: "", organization: "", service: "", message: "" });
-  };
-
-  const inputClass = "w-full px-4 py-3 rounded-lg border border-border bg-cream text-foreground focus:outline-none focus:ring-2 focus:ring-gold/50 focus:border-gold transition-colors";
-  const labelClass = "block text-sm font-medium mb-1.5";
+    const script = document.createElement("script");
+    script.src = scriptSrc;
+    script.onload = () => {
+      if (typeof (window as any).Tally !== "undefined") {
+        (window as any).Tally.loadEmbeds();
+      }
+    };
+    document.body.appendChild(script);
+  }, []);
 
   return (
     <Layout>
@@ -65,7 +31,7 @@ const Contact = () => {
         <div className="container-page py-20 md:py-28 text-center max-w-3xl mx-auto">
           <AnimatedSection>
             <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl mb-4">Let's Talk</h1>
-            <p className="text-cream/70 text-xl">Every engagement begins with a conversation.</p>
+            <p className="text-cream/70 text-xl">Every engagement begins with a conversation. Tell us what you're building.</p>
           </AnimatedSection>
         </div>
       </section>
@@ -79,7 +45,7 @@ const Contact = () => {
               <h2 className="font-serif text-2xl mb-2">Ready to schedule a discovery call?</h2>
               <p className="text-muted-foreground mb-4">Click below to view availability and book a time that works for you.</p>
               <Button variant="gold" size="lg" asChild>
-                <a href="https://calendly.com" target="_blank" rel="noopener noreferrer">
+                <a href="https://calendly.com/podcast-lakeidra/discovery-call" target="_blank" rel="noopener noreferrer">
                   Schedule Your Discovery Call
                 </a>
               </Button>
@@ -88,56 +54,21 @@ const Contact = () => {
         </div>
       </section>
 
-      {/* Contact Form + Info */}
+      {/* Tally Form + Info */}
       <section className="bg-cream">
         <div className="container-page py-12 pb-20 md:pb-24">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-            {/* Form */}
+            {/* Tally Form */}
             <AnimatedSection className="md:col-span-2">
-              <form onSubmit={handleSubmit} className="space-y-5">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                  <div>
-                    <label htmlFor="name" className={labelClass}>Full Name *</label>
-                    <input id="name" name="name" value={form.name} onChange={handleChange} className={inputClass} aria-required="true" />
-                    {errors.name && <p className="text-destructive text-xs mt-1">{errors.name}</p>}
-                  </div>
-                  <div>
-                    <label htmlFor="email" className={labelClass}>Email *</label>
-                    <input id="email" name="email" type="email" value={form.email} onChange={handleChange} className={inputClass} aria-required="true" />
-                    {errors.email && <p className="text-destructive text-xs mt-1">{errors.email}</p>}
-                  </div>
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                  <div>
-                    <label htmlFor="phone" className={labelClass}>Phone</label>
-                    <input id="phone" name="phone" value={form.phone} onChange={handleChange} className={inputClass} />
-                  </div>
-                  <div>
-                    <label htmlFor="organization" className={labelClass}>Organization</label>
-                    <input id="organization" name="organization" value={form.organization} onChange={handleChange} className={inputClass} />
-                  </div>
-                </div>
-                <div>
-                  <label htmlFor="service" className={labelClass}>Service Interest</label>
-                  <select id="service" name="service" value={form.service} onChange={handleChange} className={inputClass}>
-                    <option value="">Select a service...</option>
-                    <option value="keynote">Keynote &amp; Speaking</option>
-                    <option value="workshops">Workshops</option>
-                    <option value="curriculum">Curriculum Partnership</option>
-                    <option value="advisory">Advisory</option>
-                    <option value="book">Book Order</option>
-                    <option value="other">Other</option>
-                  </select>
-                </div>
-                <div>
-                  <label htmlFor="message" className={labelClass}>Message *</label>
-                  <textarea id="message" name="message" rows={5} value={form.message} onChange={handleChange} className={inputClass} aria-required="true" />
-                  {errors.message && <p className="text-destructive text-xs mt-1">{errors.message}</p>}
-                </div>
-                <Button type="submit" variant="gold" size="lg" disabled={submitting} className="w-full sm:w-auto">
-                  {submitting ? "Sending..." : "Send Message"}
-                </Button>
-              </form>
+              <iframe
+                data-tally-src="https://tally.so/embed/VLZxR6?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1"
+                loading="lazy"
+                width="100%"
+                height="1180"
+                frameBorder="0"
+                title="Contact The Cyber Consultant"
+                className="w-full"
+              />
             </AnimatedSection>
 
             {/* Info */}
@@ -148,8 +79,8 @@ const Contact = () => {
                   <div className="space-y-3 text-sm text-muted-foreground">
                     <div className="flex items-start gap-2">
                       <Mail size={16} className="text-gold mt-0.5 shrink-0" />
-                      <a href="mailto:hello@thecyberconsultantllc.com" className="hover:text-gold transition-colors">
-                        hello@thecyberconsultantllc.com
+                      <a href="mailto:hello@the-cyber-consultant.com" className="hover:text-gold transition-colors">
+                        hello@the-cyber-consultant.com
                       </a>
                     </div>
                     <div className="flex items-start gap-2">
@@ -158,11 +89,26 @@ const Contact = () => {
                     </div>
                     <div className="flex items-start gap-2">
                       <Globe size={16} className="text-gold mt-0.5 shrink-0" />
-                      <a href="https://thecyberconsultantllc.com" className="hover:text-gold transition-colors">
-                        thecyberconsultantllc.com
+                      <a href="https://the-cyber-consultant.com" className="hover:text-gold transition-colors">
+                        the-cyber-consultant.com
                       </a>
                     </div>
                   </div>
+                </div>
+                <div className="border-t border-border pt-4">
+                  <h4 className="font-semibold text-sm mb-2">Or schedule directly</h4>
+                  <Button variant="gold-outline" size="sm" className="w-full" asChild>
+                    <a href="https://calendly.com/podcast-lakeidra/discovery-call" target="_blank" rel="noopener noreferrer">
+                      <Calendar size={14} /> Book a Discovery Call
+                    </a>
+                  </Button>
+                </div>
+                <div className="border-t border-border pt-4">
+                  <Button variant="gold-outline" size="sm" className="w-full" asChild>
+                    <a href="https://www.amazon.com/Cyber-Curiosity-Beginners-Cybersecurity-Yourself/dp/1636768695/" target="_blank" rel="noopener noreferrer">
+                      <BookOpen size={14} /> Get the Book
+                    </a>
+                  </Button>
                 </div>
                 <div className="border-t border-border pt-4">
                   <p className="text-sm text-muted-foreground">
