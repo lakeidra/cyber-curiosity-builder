@@ -1,12 +1,15 @@
 import { Link } from "react-router-dom";
-
+import logo from "@/assets/logo.png";
 const Footer = () => {
   return (
     <footer className="bg-navy text-cream/70 py-12 border-t border-navy-light">
       <div className="container-page">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
           <div>
-            <h4 className="font-serif text-xl text-cream mb-3">The Cyber Consultant</h4>
+            <div className="flex items-center gap-2 mb-3">
+              <img src={logo} alt="The Cyber Consultant" className="h-8 w-auto" />
+              <h4 className="font-serif text-xl text-cream">The Cyber Consultant</h4>
+            </div>
             <p className="text-sm leading-relaxed">
               Cybersecurity education and curriculum consultancy based in Birmingham, Alabama.
             </p>
