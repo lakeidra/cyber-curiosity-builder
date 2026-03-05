@@ -35,8 +35,8 @@ const Navbar = () => {
             </Link>
           ))}
           <Button variant="nav-cta" size="sm" asChild>
-            <a href="https://calendly.com" target="_blank" rel="noopener noreferrer">
-              Schedule Discovery Call
+            <a href="https://calendly.com/podcast-lakeidra/discovery-call" target="_blank" rel="noopener noreferrer">
+              Schedule a Discovery Call
             </a>
           </Button>
         </div>
@@ -68,8 +68,8 @@ const Navbar = () => {
               </Link>
             ))}
             <Button variant="nav-cta" className="w-full mt-2" asChild>
-              <a href="https://calendly.com" target="_blank" rel="noopener noreferrer">
-                Schedule Discovery Call
+              <a href="https://calendly.com/podcast-lakeidra/discovery-call" target="_blank" rel="noopener noreferrer">
+                Schedule a Discovery Call
               </a>
             </Button>
           </div>

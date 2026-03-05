@@ -65,7 +65,7 @@ const Contact = () => {
         <div className="container-page py-20 md:py-28 text-center max-w-3xl mx-auto">
           <AnimatedSection>
             <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl mb-4">Let's Talk</h1>
-            <p className="text-cream/70 text-xl">Every engagement begins with a conversation.</p>
+            <p className="text-cream/70 text-xl">Every engagement begins with a conversation. Tell us what you're building.</p>
           </AnimatedSection>
         </div>
       </section>
@@ -79,7 +79,7 @@ const Contact = () => {
               <h2 className="font-serif text-2xl mb-2">Ready to schedule a discovery call?</h2>
               <p className="text-muted-foreground mb-4">Click below to view availability and book a time that works for you.</p>
               <Button variant="gold" size="lg" asChild>
-                <a href="https://calendly.com" target="_blank" rel="noopener noreferrer">
+                <a href="https://calendly.com/podcast-lakeidra/discovery-call" target="_blank" rel="noopener noreferrer">
                   Schedule Your Discovery Call
                 </a>
               </Button>
@@ -148,8 +148,8 @@ const Contact = () => {
                   <div className="space-y-3 text-sm text-muted-foreground">
                     <div className="flex items-start gap-2">
                       <Mail size={16} className="text-gold mt-0.5 shrink-0" />
-                      <a href="mailto:hello@thecyberconsultantllc.com" className="hover:text-gold transition-colors">
-                        hello@thecyberconsultantllc.com
+                      <a href="mailto:hello@the-cyber-consultant.com" className="hover:text-gold transition-colors">
+                        hello@the-cyber-consultant.com
                       </a>
                     </div>
                     <div className="flex items-start gap-2">
@@ -158,8 +158,8 @@ const Contact = () => {
                     </div>
                     <div className="flex items-start gap-2">
                       <Globe size={16} className="text-gold mt-0.5 shrink-0" />
-                      <a href="https://thecyberconsultantllc.com" className="hover:text-gold transition-colors">
-                        thecyberconsultantllc.com
+                      <a href="https://the-cyber-consultant.com" className="hover:text-gold transition-colors">
+                        the-cyber-consultant.com
                       </a>
                     </div>
                   </div>

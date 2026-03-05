@@ -193,7 +193,7 @@ const Index = () => {
                 Written for every person who has ever felt like cybersecurity was someone else's job. The foundation of every program The Cyber Consultant delivers.
               </p>
               <Button variant="hero-primary" asChild>
-                <a href="#" target="_blank" rel="noopener noreferrer">
+                <a href="https://www.amazon.com/Cyber-Curiosity-Beginners-Cybersecurity-Yourself/dp/1636768695/" target="_blank" rel="noopener noreferrer">
                   <BookOpen size={18} /> Get the Book
                 </a>
               </Button>
@@ -238,7 +238,7 @@ const Index = () => {
               <Link to="/contact">Let's Talk</Link>
             </Button>
             <p className="text-cream/50 text-sm mt-8">
-              hello@thecyberconsultantllc.com · thecyberconsultantllc.com · Birmingham, AL
+              hello@the-cyber-consultant.com · the-cyber-consultant.com · Birmingham, AL
             </p>
           </AnimatedSection>
         </div>

@@ -164,7 +164,7 @@ const Services = () => {
             </p>
             <div className="flex flex-wrap gap-4">
               <Button variant="gold" asChild>
-                <a href="#" target="_blank" rel="noopener noreferrer">Order Individual Copies <ArrowRight size={16} /></a>
+                <a href="https://www.amazon.com/Cyber-Curiosity-Beginners-Cybersecurity-Yourself/dp/1636768695/" target="_blank" rel="noopener noreferrer">Order Individual Copies <ArrowRight size={16} /></a>
               </Button>
               <Button variant="gold-outline" asChild>
                 <Link to="/contact">Inquire About Bulk Orders <ArrowRight size={16} /></Link>
@@ -184,7 +184,7 @@ const Services = () => {
               <Link to="/contact">Let's Talk</Link>
             </Button>
             <p className="text-cream/50 text-sm mt-8">
-              hello@thecyberconsultantllc.com · thecyberconsultantllc.com
+              hello@the-cyber-consultant.com · the-cyber-consultant.com
             </p>
           </AnimatedSection>
         </div>
