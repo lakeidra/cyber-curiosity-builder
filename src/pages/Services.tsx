@@ -66,24 +66,20 @@ const Services = () => {
               {
                 title: "The Spark Session",
                 desc: "A 90-minute interactive experience for teams of up to 50. Fast, focused, and immediately actionable. Perfect as a lunch-and-learn or team meeting. Available virtually or in-person.",
-                price: "Starting at $3,500 virtual / $5,000 in-person",
               },
               {
                 title: "The Cyber Curiosity Workshop",
                 desc: "A half-day experience for teams of up to 75. The full Cyber Curiosity methodology — habit assessment, scenario simulations, and a personalized action plan for your organization. Each participant receives a copy of Cyber Curiosity.",
-                price: "Starting at $7,500 virtual / $10,000 in-person",
               },
               {
                 title: "The Executive Cyber Briefing",
                 desc: "A focused 60-minute strategic session for leadership teams of 10–20. Not a training — a risk conversation in the language executives speak: business continuity, liability, and decision-making. Ends with three tailored recommendations.",
-                price: "Starting at $5,000 virtual / $7,500 in-person",
               },
             ].map((item, i) => (
               <AnimatedSection key={item.title} delay={i * 0.1}>
                 <div className="bg-cream rounded-xl p-6 border border-border">
                   <h3 className="font-serif text-xl mb-2">{item.title}</h3>
-                  <p className="text-muted-foreground leading-relaxed mb-3">{item.desc}</p>
-                  <p className="text-gold font-semibold text-sm">{item.price}</p>
+                  <p className="text-muted-foreground leading-relaxed">{item.desc}</p>
                 </div>
               </AnimatedSection>
             ))}
