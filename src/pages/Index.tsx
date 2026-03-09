@@ -22,7 +22,7 @@ const Index = () => {
             </p>
             <div className="flex flex-wrap gap-4">
               <Button variant="hero-primary" size="lg" asChild>
-                <Link to="/contact">Let's Build Something</Link>
+                <a href="https://the-cyber-consultant.com/scorecard">Access Your Board Readiness</a>
               </Button>
               <Button variant="hero-secondary" size="lg" asChild>
                 <Link to="/services#workshops">Book a Workshop</Link>
