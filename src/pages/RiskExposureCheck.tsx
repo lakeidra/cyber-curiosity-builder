@@ -1,5 +1,4 @@
 import { useState, useRef, useEffect, CSSProperties } from "react";
-import emailjs from "@emailjs/browser";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -317,23 +316,7 @@ function Shell({ children }: { children: React.ReactNode }) {
   );
 }
 
-// ─── EmailJS Config ───────────────────────────────────────────────────────────
-
-const EMAILJS_SERVICE_ID  = "service_sath5sc";
-const EMAILJS_TEMPLATE_ID = "template_zv89flv";
-const EMAILJS_PUBLIC_KEY  = "8sfTPg5hIBawM9a68";
-
-// Initialize once at module level — no race conditions
-emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
-
-async function sendReportEmail(params: {
-  to_email: string;
-  name: string;
-  risk_level: string;
-  report_body: string;
-}) {
-  return emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, params);
-}
+// EmailJS is now handled server-side in api/generate-report.ts
 
 const primaryBtn: CSSProperties = {
   background: "#C8A96E", color: "#070710", border: "none", borderRadius: 8,
@@ -357,6 +340,8 @@ export default function RiskExposureCheck() {
   const [email, setEmail] = useState("");
   const [copied, setCopied] = useState(false);
   const [animating, setAnimating] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [reportError, setReportError] = useState<string | null>(null);
   const reportRef = useRef<HTMLDivElement>(null);
 
   const categoryScores: Record<Category, number> = CATEGORIES.reduce((acc, cat) => {
@@ -387,8 +372,8 @@ export default function RiskExposureCheck() {
   }
 
   async function generateReport() {
-    setStep("results");
-    const catSummary = CATEGORIES.map((c) => `${c}: ${categoryScores[c].toFixed(1)}/3`).join(" | ");
+    setIsLoading(true);
+    setReportError(null);
 
     // 1. Submit lead to Formspree (fire and forget)
     fetch("https://formspree.io/f/maqpqloy", {
@@ -399,44 +384,41 @@ export default function RiskExposureCheck() {
         tool: "Human + AI Risk Exposure Check",
         overall_score: `${totalScore}/${maxScore} (${overallPct}%)`,
         risk_level: riskLevel.label,
-        category_scores: catSummary,
+        category_scores: CATEGORIES.map((c) => `${c}: ${categoryScores[c].toFixed(1)}/3`).join(" | "),
         weakest_areas: weakest.join(", "),
         _subject: `New Lead: ${name} at ${company} — ${riskLevel.label} (${overallPct}%)`,
       }),
     }).catch(() => {});
 
-    // 2. Generate report directly from browser via Anthropic API, then email it
-    const prompt = `Generate a personalized Human + AI Risk assessment for ${name || "this leader"} (${role || "executive"}) at ${company || "their organization"}.
-Overall score: ${totalScore}/${maxScore} — Risk Level: "${riskLevel.label}"
-Category scores (0–3): ${catSummary}
-Weakest: ${weakest.join(", ")} | Strongest: ${strongest.join(", ")}
-Write 3 paragraphs as described. Be specific. Don't be generic.`;
-
+    // 2. Call backend to generate report + send email
     try {
       const res = await fetch("/api/generate-report", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          model: "claude-haiku-4-5-20251001",
-          max_tokens: 600,
-          system: SYSTEM_PROMPT,
-          messages: [{ role: "user", content: prompt }],
+          email,
+          name,
+          role,
+          company,
+          scores: categoryScores,
+          totalScore,
+          maxScore,
+          riskLevel: riskLevel.label,
+          categories: CATEGORIES,
         }),
       });
-      const data = await res.json();
-      const reportText: string = data.content?.map((b: { type: string; text?: string }) => b.text ?? "").join("") ?? "";
 
-      // 3. Send report to prospect via EmailJS
-      if (reportText && email) {
-        await sendReportEmail({
-          to_email: email,
-          name: name || "there",
-          risk_level: riskLevel.label,
-          report_body: reportText,
-        });
+      if (!res.ok) {
+        const errData = await res.json().catch(() => ({}));
+        throw new Error(errData.error || `Server error (${res.status})`);
       }
+
+      setStep("results");
     } catch (err) {
-      console.error("EmailJS error:", err);
+      console.error("Report generation error:", err);
+      setReportError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -658,10 +640,13 @@ Write 3 paragraphs as described. Be specific. Don't be generic.`;
                   />
                 ))}
               </div>
-              <button onClick={generateReport} disabled={!email.trim()}
-                style={{ ...primaryBtn, width: "100%", opacity: email.trim() ? 1 : 0.4, cursor: email.trim() ? "pointer" : "not-allowed" }}>
-                Reveal My Risk Profile →
+              <button onClick={generateReport} disabled={isLoading || !email.trim()}
+                style={{ ...primaryBtn, width: "100%", opacity: (isLoading || !email.trim()) ? 0.4 : 1, cursor: (isLoading || !email.trim()) ? "not-allowed" : "pointer" }}>
+                {isLoading ? "Generating Your Report..." : "Reveal My Risk Profile →"}
               </button>
+              {reportError && (
+                <p style={{ color: "#F472B6", fontSize: 13, marginTop: 8 }}>{reportError}</p>
+              )}
               <p style={{ color: "#2A2A4A", fontSize: 11, marginTop: 10 }}>No spam. Your data stays with The Cyber Consultant.</p>
             </div>
           </div>
