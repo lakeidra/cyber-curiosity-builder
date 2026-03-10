@@ -116,6 +116,26 @@ const Navbar = () => {
                 {link.label}
               </Link>
             ))}
+            <button
+              onClick={() => setMobileResourcesOpen(!mobileResourcesOpen)}
+              className="text-base font-medium py-2 transition-colors hover:text-gold text-cream/80 flex items-center gap-1 text-left"
+            >
+              Resources <ChevronDown size={14} className={`transition-transform ${mobileResourcesOpen ? "rotate-180" : ""}`} />
+            </button>
+            {mobileResourcesOpen && (
+              <div className="flex flex-col gap-2 pl-4">
+                {resourceLinks.map((link) => (
+                  <Link
+                    key={link.to}
+                    to={link.to}
+                    onClick={() => setMobileOpen(false)}
+                    className="text-sm text-cream/70 hover:text-gold transition-colors py-1"
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+              </div>
+            )}
             <Button variant="nav-cta" className="w-full mt-2" asChild>
               <a href="https://calendly.com/podcast-lakeidra/discovery-call" target="_blank" rel="noopener noreferrer">
                 Schedule a Discovery Call
