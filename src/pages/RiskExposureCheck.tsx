@@ -389,8 +389,8 @@ export default function RiskExposureCheck() {
   }
 
   async function generateReport() {
-    setStep("results");
-    const catSummary = CATEGORIES.map((c) => `${c}: ${categoryScores[c].toFixed(1)}/3`).join(" | ");
+    setIsLoading(true);
+    setReportError(null);
 
     // 1. Submit lead to Formspree (fire and forget)
     fetch("https://formspree.io/f/maqpqloy", {
@@ -401,44 +401,41 @@ export default function RiskExposureCheck() {
         tool: "Human + AI Risk Exposure Check",
         overall_score: `${totalScore}/${maxScore} (${overallPct}%)`,
         risk_level: riskLevel.label,
-        category_scores: catSummary,
+        category_scores: CATEGORIES.map((c) => `${c}: ${categoryScores[c].toFixed(1)}/3`).join(" | "),
         weakest_areas: weakest.join(", "),
         _subject: `New Lead: ${name} at ${company} — ${riskLevel.label} (${overallPct}%)`,
       }),
     }).catch(() => {});
 
-    // 2. Generate report directly from browser via Anthropic API, then email it
-    const prompt = `Generate a personalized Human + AI Risk assessment for ${name || "this leader"} (${role || "executive"}) at ${company || "their organization"}.
-Overall score: ${totalScore}/${maxScore} — Risk Level: "${riskLevel.label}"
-Category scores (0–3): ${catSummary}
-Weakest: ${weakest.join(", ")} | Strongest: ${strongest.join(", ")}
-Write 3 paragraphs as described. Be specific. Don't be generic.`;
-
+    // 2. Call backend to generate report + send email
     try {
       const res = await fetch("/api/generate-report", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          model: "claude-haiku-4-5-20251001",
-          max_tokens: 600,
-          system: SYSTEM_PROMPT,
-          messages: [{ role: "user", content: prompt }],
+          email,
+          name,
+          role,
+          company,
+          scores: categoryScores,
+          totalScore,
+          maxScore,
+          riskLevel: riskLevel.label,
+          categories: CATEGORIES,
         }),
       });
-      const data = await res.json();
-      const reportText: string = data.content?.map((b: { type: string; text?: string }) => b.text ?? "").join("") ?? "";
 
-      // 3. Send report to prospect via EmailJS
-      if (reportText && email) {
-        await sendReportEmail({
-          to_email: email,
-          name: name || "there",
-          risk_level: riskLevel.label,
-          report_body: reportText,
-        });
+      if (!res.ok) {
+        const errData = await res.json().catch(() => ({}));
+        throw new Error(errData.error || `Server error (${res.status})`);
       }
+
+      setStep("results");
     } catch (err) {
-      console.error("EmailJS error:", err);
+      console.error("Report generation error:", err);
+      setReportError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
+    } finally {
+      setIsLoading(false);
     }
   }
 
