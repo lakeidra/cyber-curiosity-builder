@@ -362,8 +362,6 @@ export default function RiskExposureCheck() {
   const [company, setCompany] = useState("");
   const [role, setRole] = useState("");
   const [email, setEmail] = useState("");
-  const [aiReport, setAiReport] = useState("");
-  const [loadingReport, setLoadingReport] = useState(false);
   const [copied, setCopied] = useState(false);
   const [animating, setAnimating] = useState(false);
   const reportRef = useRef<HTMLDivElement>(null);
@@ -397,25 +395,24 @@ export default function RiskExposureCheck() {
 
   async function generateReport() {
     setStep("results");
-    setLoadingReport(true);
     const catSummary = CATEGORIES.map((c) => `${c}: ${categoryScores[c].toFixed(1)}/3`).join(" | ");
 
-    try {
-      await fetch("https://formspree.io/f/maqpqloy", {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify({
-          name, company, role, email,
-          tool: "Human + AI Risk Exposure Check",
-          overall_score: `${totalScore}/${maxScore} (${overallPct}%)`,
-          risk_level: riskLevel.label,
-          category_scores: catSummary,
-          weakest_areas: weakest.join(", "),
-          _subject: `New Lead: ${name} at ${company} — ${riskLevel.label} (${overallPct}%)`,
-        }),
-      });
-    } catch { /* silent */ }
+    // 1. Submit lead to Formspree (fire and forget)
+    fetch("https://formspree.io/f/maqpqloy", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify({
+        name, company, role, email,
+        tool: "Human + AI Risk Exposure Check",
+        overall_score: `${totalScore}/${maxScore} (${overallPct}%)`,
+        risk_level: riskLevel.label,
+        category_scores: catSummary,
+        weakest_areas: weakest.join(", "),
+        _subject: `New Lead: ${name} at ${company} — ${riskLevel.label} (${overallPct}%)`,
+      }),
+    }).catch(() => {});
 
+    // 2. Generate report directly from browser via Anthropic API, then email it
     const prompt = `Generate a personalized Human + AI Risk assessment for ${name || "this leader"} (${role || "executive"}) at ${company || "their organization"}.
 Overall score: ${totalScore}/${maxScore} — Risk Level: "${riskLevel.label}"
 Category scores (0–3): ${catSummary}
@@ -423,39 +420,35 @@ Weakest: ${weakest.join(", ")} | Strongest: ${strongest.join(", ")}
 Write 3 paragraphs as described. Be specific. Don't be generic.`;
 
     try {
-      const res = await fetch("/api/generate-report", {
+      const res = await fetch("https://api.anthropic.com/v1/messages", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "x-api-key": import.meta.env.VITE_ANTHROPIC_API_KEY,
+          "anthropic-version": "2023-06-01",
+          "anthropic-dangerous-direct-browser-access": "true",
+        },
         body: JSON.stringify({
-          model: "claude-sonnet-4-20250514",
-          max_tokens: 1000,
+          model: "claude-haiku-4-5-20251001",
+          max_tokens: 600,
           system: SYSTEM_PROMPT,
           messages: [{ role: "user", content: prompt }],
         }),
       });
       const data = await res.json();
       const reportText: string = data.content?.map((b: { type: string; text?: string }) => b.text ?? "").join("") ?? "";
-      setAiReport(reportText);
 
-      // Send report to prospect via EmailJS
+      // 3. Send report to prospect via EmailJS
       if (reportText && email) {
-        try {
-          await sendReportEmail({
-            to_email: email,
-            name: name || "there",
-            risk_level: riskLevel.label,
-            report_body: reportText,
-          });
-        } catch {
-          // Email delivery failure is silent — report still shows on screen
-        }
+        await sendReportEmail({
+          to_email: email,
+          name: name || "there",
+          risk_level: riskLevel.label,
+          report_body: reportText,
+        });
       }
-
-      setTimeout(() => reportRef.current?.scrollIntoView({ behavior: "smooth" }), 100);
     } catch {
-      setAiReport("We ran into an issue generating your personalized report. Your risk profile is displayed above.");
-    } finally {
-      setLoadingReport(false);
+      // Silent — user already sees the confirmation card, email best-effort
     }
   }
 
@@ -751,21 +744,19 @@ Write 3 paragraphs as described. Be specific. Don't be generic.`;
           </div>
         </div>
 
-        {/* AI Report */}
-        <div ref={reportRef} style={{ background: "#0A0A18", border: "1px solid #C8A96E20", borderRadius: 16, padding: isMobile ? "18px 16px" : 28, marginBottom: 20 }}>
-          <p style={{ color: "#5A5A7A", fontSize: 9, letterSpacing: "0.15em", marginBottom: 14 }}>YOUR PERSONALIZED ANALYSIS</p>
-          {loadingReport ? (
-            <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-              {[0, 1, 2].map((i) => (
-                <div key={i} style={{ width: 7, height: 7, borderRadius: "50%", background: "#C8A96E", animation: `pulse 1.4s ease-in-out ${i * 0.2}s infinite` }} />
-              ))}
-              <span style={{ color: "#5A5A7A", fontSize: 13 }}>Writing your analysis and sending it to your inbox...</span>
-            </div>
-          ) : (
-            <p style={{ color: "#C8C8E0", fontSize: isMobile ? 15 : 16, lineHeight: 1.85, whiteSpace: "pre-wrap", fontFamily: "'Cormorant Garamond', Georgia, serif", margin: 0 }}>
-              {aiReport}
+        {/* Inbox confirmation card */}
+        <div style={{ background: "#0A0A18", border: "1px solid #C8A96E30", borderRadius: 16, padding: isMobile ? "22px 18px" : 28, marginBottom: 20, display: "flex", alignItems: "flex-start", gap: 18 }}>
+          <div style={{ width: 40, height: 40, borderRadius: "50%", background: "#C8A96E15", border: "1px solid #C8A96E40", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: 18 }}>
+            ✉️
+          </div>
+          <div>
+            <p style={{ color: "#C8A96E", fontSize: 13, fontWeight: 700, letterSpacing: "0.05em", marginBottom: 6 }}>
+              YOUR PERSONALIZED REPORT IS ON ITS WAY
             </p>
-          )}
+            <p style={{ color: "#7A7A9A", fontSize: 14, lineHeight: 1.7, margin: 0 }}>
+              A personalized analysis written to your specific results is being sent to <span style={{ color: "#E8E8F0", fontWeight: 600 }}>{email}</span>. Check your inbox — and your spam folder just in case.
+            </p>
+          </div>
         </div>
 
         {/* CTA */}
