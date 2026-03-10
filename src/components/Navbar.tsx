@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ChevronDown } from "lucide-react";
 import logo from "@/assets/logo.png";
 
 const navLinks = [
@@ -9,6 +9,11 @@ const navLinks = [
   { label: "About", to: "/about" },
   { label: "Services", to: "/services" },
   { label: "Contact", to: "/contact" },
+];
+
+const resourceLinks = [
+  { label: "Board Cyber Readiness Scorecard", to: "/scorecard" },
+  { label: "Human + AI Risk Exposure Check", to: "/risk-check" },
 ];
 
 const Navbar = () => {
