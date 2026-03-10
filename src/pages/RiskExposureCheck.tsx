@@ -435,8 +435,8 @@ Write 3 paragraphs as described. Be specific. Don't be generic.`;
           report_body: reportText,
         });
       }
-    } catch {
-      // Silent — user already sees the confirmation card, email best-effort
+    } catch (err) {
+      console.error("EmailJS error:", err);
     }
   }
 
