@@ -316,23 +316,7 @@ function Shell({ children }: { children: React.ReactNode }) {
   );
 }
 
-// ─── EmailJS Config ───────────────────────────────────────────────────────────
-
-const EMAILJS_SERVICE_ID  = "service_sath5sc";
-const EMAILJS_TEMPLATE_ID = "template_zv89flv";
-const EMAILJS_PUBLIC_KEY  = "8sfTPg5hIBawM9a68";
-
-// Initialize once at module level — no race conditions
-emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
-
-async function sendReportEmail(params: {
-  to_email: string;
-  name: string;
-  risk_level: string;
-  report_body: string;
-}) {
-  return emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, params);
-}
+// EmailJS is now handled server-side in api/generate-report.ts
 
 const primaryBtn: CSSProperties = {
   background: "#C8A96E", color: "#070710", border: "none", borderRadius: 8,
