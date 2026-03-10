@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, CSSProperties } from "react";
+import emailjs from "@emailjs/browser";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -322,24 +323,16 @@ const EMAILJS_SERVICE_ID  = "service_sath5sc";
 const EMAILJS_TEMPLATE_ID = "template_zv89flv";
 const EMAILJS_PUBLIC_KEY  = "8sfTPg5hIBawM9a68";
 
+// Initialize once at module level — no race conditions
+emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+
 async function sendReportEmail(params: {
   to_email: string;
   name: string;
   risk_level: string;
   report_body: string;
 }) {
-  // Dynamically load EmailJS SDK if not already present
-  if (!(window as any).emailjs) {
-    await new Promise<void>((resolve, reject) => {
-      const script = document.createElement("script");
-      script.src = "https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js";
-      script.onload = () => resolve();
-      script.onerror = () => reject(new Error("EmailJS failed to load"));
-      document.head.appendChild(script);
-    });
-    (window as any).emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
-  }
-  return (window as any).emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, params);
+  return emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, params);
 }
 
 const primaryBtn: CSSProperties = {
