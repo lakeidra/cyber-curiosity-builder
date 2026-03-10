@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, CSSProperties } from "react";
+import emailjs from "@emailjs/browser";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -135,264 +136,113 @@ const QUESTIONS: Question[] = [
   },
   {
     id: "de1", category: "Data Exposure",
-    question: "Does your organization know where all sensitive data lives — and who can access it?",
-    context: "You can't protect what you can't see.",
+    question: "Where is your most sensitive data stored, and who has access to it?",
+    context: "This includes customer data, financial records, trade secrets, or anything that would damage the business if leaked.",
     options: [
-      { label: "No — data is spread across systems without a clear map", score: 0 },
-      { label: "We have a general idea but no formal inventory", score: 1 },
-      { label: "A data inventory exists but isn't current", score: 2 },
-      { label: "Yes — documented, current, and access-controlled by classification", score: 3 },
+      { label: "Unclear — data is scattered across various systems", score: 0 },
+      { label: "We know where it is, but access controls are loose", score: 1 },
+      { label: "Data is mapped and access is controlled, but not always enforced", score: 2 },
+      { label: "Fully catalogued, access is role-based and regularly audited", score: 3 },
     ],
   },
   {
     id: "de2", category: "Data Exposure",
-    question: "How does your organization handle sensitive data shared through AI tools?",
-    context: "Many organizations are feeding proprietary data into AI tools without realizing the exposure.",
+    question: "How often does your organization back up critical data, and can you recover from a complete system loss?",
+    context: "This is your insurance policy against ransomware, hardware failure, and sabotage.",
     options: [
-      { label: "No controls — employees use AI tools without data guidelines", score: 0 },
-      { label: "We've raised it as a concern but haven't acted on it", score: 1 },
-      { label: "There are informal guidelines, but no enforcement mechanism", score: 2 },
-      { label: "Clear data classification rules govern what can enter AI tools", score: 3 },
+      { label: "Backups exist but recovery hasn't been tested", score: 0 },
+      { label: "Regular backups, but recovery time is unknown", score: 1 },
+      { label: "Tested backups with a known recovery timeline", score: 2 },
+      { label: "Automated backups, regularly tested, RTO/RPO defined and met", score: 3 },
     ],
   },
   {
     id: "la1", category: "Leadership Alignment",
-    question: "How does your senior leadership talk about cybersecurity internally?",
-    context: "Culture is modeled from the top. What leadership says — and doesn't say — sets the tone.",
+    question: "How often does your leadership team discuss cybersecurity risk — and is it part of strategic business planning?",
+    context: "Risk as a strategic conversation, not just a compliance check.",
     options: [
-      { label: "Rarely, unless something goes wrong", score: 0 },
-      { label: "During annual training or compliance cycles", score: 1 },
-      { label: "Occasionally, but it's framed as IT's responsibility", score: 2 },
-      { label: "Regularly, framed as a shared business risk owned by everyone", score: 3 },
+      { label: "Rarely — security is only discussed when something goes wrong", score: 0 },
+      { label: "Quarterly or annually, as a compliance obligation", score: 1 },
+      { label: "Regular discussion, but often reactive rather than strategic", score: 2 },
+      { label: "Part of regular business strategy; leadership understands their role in risk ownership", score: 3 },
     ],
   },
   {
     id: "la2", category: "Leadership Alignment",
-    question: "Does your organization's security investment reflect its stated risk priorities?",
-    context: "Budget decisions reveal true priorities more than strategy documents.",
+    question: "If a security breach occurred today, would leadership know what to do?",
+    context: "Not the technical response — their actual role in decision-making, communication, and recovery.",
     options: [
-      { label: "Security budget is reactive — it increases after incidents", score: 0 },
-      { label: "Budget exists but isn't tied to a risk-based framework", score: 1 },
-      { label: "Investments are intentional but not formally tied to risk appetite", score: 2 },
-      { label: "Security spend is directly mapped to organizational risk priorities", score: 3 },
+      { label: "Unclear — we haven't defined leadership's role in an incident", score: 0 },
+      { label: "IT has a plan, but leadership's involvement isn't clear", score: 1 },
+      { label: "Leadership knows broadly what to expect, but details aren't defined", score: 2 },
+      { label: "Clear playbook; each leader knows their exact responsibilities", score: 3 },
     ],
   },
 ];
 
-const SYSTEM_PROMPT = `You are Lakeidra Smith, a cybersecurity strategic risk advisor and author of "Cyber Curiosity: A Beginner's Guide to Cybersecurity." You help executives, CISOs, HR leaders, and C-suite teams understand cybersecurity as a human and business risk — not a technical one.
-
-Your voice: conversational but authoritative, warm but direct. Lead with facts, anchor in humanity. Never fear-monger. Cybersecurity is fundamentally a human problem.
-
-Your phrases: "Honestly...", "However...", "Therefore...", "Consequently...", "Prevention over reaction", "Don't trust, always verify", "I refuse to..."
-
-BANNED: dive into, unleash, game-changing, revolutionary, transformative, leverage, optimize, tapestry, delve, "It's not just x, it's y"
-
-Write a personalized Human + AI Risk assessment in 3 paragraphs:
-1. Read their risk profile honestly — what's strong and what's exposed
-2. Name the 2 highest-risk categories and what that means for the business
-3. Warm, direct invitation to a conversation — not salesy, just genuine
-
-Sign off as Lakeidra Smith, The Cyber Consultant. Under 280 words. Specific to their numbers.`;
-
-// ─── Radar Chart ──────────────────────────────────────────────────────────────
-
-function RadarChart({ scores, animated = false, size = 280 }: {
-  scores: Record<Category, number>;
-  animated?: boolean;
-  size?: number;
-}) {
-  const [displayScores, setDisplayScores] = useState<Record<Category, number>>(
-    CATEGORIES.reduce((a, c) => ({ ...a, [c]: 0 }), {} as Record<Category, number>)
-  );
-
-  useEffect(() => {
-    if (!animated) { setDisplayScores(scores); return; }
-    const start = performance.now();
-    const duration = 1200;
-    const from = { ...displayScores };
-    function tick(now: number) {
-      const t = Math.min((now - start) / duration, 1);
-      const ease = 1 - Math.pow(1 - t, 3);
-      const next = CATEGORIES.reduce((a, c) => {
-        a[c] = from[c] + (scores[c] - from[c]) * ease;
-        return a;
-      }, {} as Record<Category, number>);
-      setDisplayScores(next);
-      if (t < 1) requestAnimationFrame(tick);
-    }
-    requestAnimationFrame(tick);
-  }, [scores]);
-
-  const cx = size / 2;
-  const cy = size / 2;
-  const maxR = size * 0.30;
-  const labelOffset = size * 0.16;
-  const n = CATEGORIES.length;
-
-  function angleFor(i: number) { return (i / n) * 2 * Math.PI - Math.PI / 2; }
-  function point(i: number, r: number) {
-    const a = angleFor(i);
-    return { x: cx + r * Math.cos(a), y: cy + r * Math.sin(a) };
-  }
-
-  const rings = [0.25, 0.5, 0.75, 1];
-  const dataPath = CATEGORIES.map((cat, i) => {
-    const r = ((displayScores[cat] ?? 0) / 3) * maxR;
-    const p = point(i, r);
-    return `${i === 0 ? "M" : "L"} ${p.x} ${p.y}`;
-  }).join(" ") + " Z";
-
-  const labelFontSize = Math.max(7, Math.min(10, size * 0.033));
-  const scoreFontSize = Math.max(6, Math.min(9, size * 0.027));
-
-  return (
-    <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} style={{ overflow: "visible", maxWidth: "100%", display: "block" }}>
-      {rings.map((ring) => (
-        <polygon key={ring}
-          points={CATEGORIES.map((_, i) => { const p = point(i, maxR * ring); return `${p.x},${p.y}`; }).join(" ")}
-          fill="none" stroke="#1E1E2E" strokeWidth={1}
-        />
-      ))}
-      {CATEGORIES.map((_, i) => {
-        const p = point(i, maxR);
-        return <line key={i} x1={cx} y1={cy} x2={p.x} y2={p.y} stroke="#1E1E2E" strokeWidth={1} />;
-      })}
-      <path d={dataPath} fill="rgba(200,169,110,0.12)" stroke="#C8A96E" strokeWidth={1.5} strokeLinejoin="round" />
-      {CATEGORIES.map((cat, i) => {
-        const r = ((displayScores[cat] ?? 0) / 3) * maxR;
-        const p = point(i, r);
-        return <circle key={cat} cx={p.x} cy={p.y} r={3} fill={CATEGORY_META[cat].color} stroke="#0A0A0F" strokeWidth={1.5} />;
-      })}
-      {CATEGORIES.map((cat, i) => {
-        const lp = point(i, maxR + labelOffset);
-        const meta = CATEGORY_META[cat];
-        const score = Math.round(displayScores[cat] ?? 0);
-        const anchor = lp.x < cx - 6 ? "end" : lp.x > cx + 6 ? "start" : "middle";
-        const shortLabel = size < 220 ? cat.split(" ")[0].toUpperCase() : cat.toUpperCase();
-        return (
-          <g key={cat}>
-            <text x={lp.x} y={lp.y - 3} textAnchor={anchor}
-              fill={meta.color} fontSize={labelFontSize} fontWeight={700}
-              fontFamily="'DM Sans', sans-serif" letterSpacing="0.03em">
-              {meta.icon} {shortLabel}
-            </text>
-            <text x={lp.x} y={lp.y + labelFontSize + 2} textAnchor={anchor}
-              fill="#5A5A7A" fontSize={scoreFontSize} fontFamily="'DM Sans', sans-serif">
-              {score}/3
-            </text>
-          </g>
-        );
-      })}
-    </svg>
-  );
-}
-
-// ─── Shell ────────────────────────────────────────────────────────────────────
-
-function Shell({ children }: { children: React.ReactNode }) {
-  return (
-    <div style={{ minHeight: "100vh", background: "#070710", fontFamily: "'DM Sans', 'Helvetica Neue', sans-serif", color: "#E8E8F0", position: "relative", overflowX: "hidden" }}>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800&family=Cormorant+Garamond:ital,wght@0,600;0,700;1,500&display=swap');
-        @keyframes pulse { 0%,100%{opacity:.3;transform:scale(.8)} 50%{opacity:1;transform:scale(1.1)} }
-        @keyframes fadeUp { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
-        @keyframes glow { 0%,100%{opacity:0.3} 50%{opacity:0.7} }
-        input::placeholder { color: #2A2A4A !important; }
-        input:focus { outline: none !important; }
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        ::-webkit-scrollbar { width: 3px; }
-        ::-webkit-scrollbar-thumb { background: #1E1E2E; border-radius: 2px; }
-      `}</style>
-      <div style={{ position: "fixed", inset: 0, pointerEvents: "none", zIndex: 0 }}>
-        <div style={{ position: "absolute", top: "-20%", left: "-10%", width: "60vw", height: "60vw", maxWidth: 600, maxHeight: 600, borderRadius: "50%", background: "radial-gradient(circle, rgba(200,169,110,0.04) 0%, transparent 70%)", animation: "glow 6s ease-in-out infinite" }} />
-        <div style={{ position: "absolute", bottom: "-20%", right: "-10%", width: "50vw", height: "50vw", maxWidth: 500, maxHeight: 500, borderRadius: "50%", background: "radial-gradient(circle, rgba(126,232,250,0.04) 0%, transparent 70%)", animation: "glow 8s ease-in-out infinite 2s" }} />
-      </div>
-      <div style={{ position: "relative", zIndex: 10, borderBottom: "1px solid #12121E", padding: "14px 20px", display: "flex", justifyContent: "space-between", alignItems: "center", backdropFilter: "blur(10px)", background: "rgba(7,7,16,0.85)", flexWrap: "wrap", gap: 6 }}>
-        <span style={{ color: "#C8A96E", fontWeight: 700, fontSize: 13, letterSpacing: "0.08em" }}>THE CYBER CONSULTANT</span>
-        <span style={{ color: "#2A2A4A", fontSize: 10, letterSpacing: "0.1em" }}>HUMAN + AI RISK EXPOSURE CHECK</span>
-      </div>
-      <div style={{ position: "relative", zIndex: 10, animation: "fadeUp 0.5s ease" }}>{children}</div>
-    </div>
-  );
-}
-
-// EmailJS is now handled server-side in api/generate-report.ts
-
-const primaryBtn: CSSProperties = {
-  background: "#C8A96E", color: "#070710", border: "none", borderRadius: 8,
-  padding: "14px 28px", fontSize: 15, fontWeight: 700, letterSpacing: "0.04em",
-  cursor: "pointer", fontFamily: "inherit", transition: "all 0.2s ease",
-};
-
-// ─── Main Component ───────────────────────────────────────────────────────────
+// ─── Main Component ────────────────────────────────────────────────────────────
 
 export default function RiskExposureCheck() {
-  const width = useWindowWidth();
-  const isMobile = width < 640;
-  const isTablet = width < 900;
-
   const [step, setStep] = useState<Step>("intro");
   const [answers, setAnswers] = useState<Record<string, number>>({});
-  const [currentQ, setCurrentQ] = useState(0);
   const [name, setName] = useState("");
-  const [company, setCompany] = useState("");
   const [role, setRole] = useState("");
+  const [company, setCompany] = useState("");
   const [email, setEmail] = useState("");
   const [copied, setCopied] = useState(false);
-  const [animating, setAnimating] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [reportError, setReportError] = useState<string | null>(null);
-  const reportRef = useRef<HTMLDivElement>(null);
 
-  const categoryScores: Record<Category, number> = CATEGORIES.reduce((acc, cat) => {
-    const qs = QUESTIONS.filter((q) => q.category === cat);
-    acc[cat] = qs.length > 0 ? qs.reduce((s, q) => s + (answers[q.id] ?? 0), 0) / qs.length : 0;
-    return acc;
-  }, {} as Record<Category, number>);
+  const width = useWindowWidth();
+  const isMobile = width < 768;
+  const isTablet = width < 1024;
 
-  const totalScore = Object.values(answers).reduce((a, b) => a + b, 0);
-  const maxScore = QUESTIONS.length * 3;
+  const handleAnswer = (id: string, score: number) => {
+    setAnswers((prev) => ({ ...prev, [id]: score }));
+  };
+
+  const currentQuestion = QUESTIONS.find(
+    (q) => !answers.hasOwnProperty(q.id)
+  );
+
+  const categoryScores = CATEGORIES.reduce(
+    (acc, cat) => {
+      const categoryQuestions = QUESTIONS.filter((q) => q.category === cat);
+      const answered = categoryQuestions.filter((q) =>
+        answers.hasOwnProperty(q.id)
+      );
+      const total = answered.reduce((sum, q) => sum + (answers[q.id] || 0), 0);
+      acc[cat] = answered.length > 0 ? total / answered.length : 0;
+      return acc;
+    },
+    {} as Record<Category, number>
+  );
+
+  const totalScore = Object.values(categoryScores).reduce((a, b) => a + b, 0);
+  const maxScore = 3 * CATEGORIES.length;
   const overallPct = Math.round((totalScore / maxScore) * 100);
-  const weakest = [...CATEGORIES].sort((a, b) => categoryScores[a] - categoryScores[b]).slice(0, 2);
-  const strongest = [...CATEGORIES].sort((a, b) => categoryScores[b] - categoryScores[a]).slice(0, 2);
+
   const riskLevel =
-    overallPct >= 75 ? { label: "Low Exposure",      color: "#34D399" } :
-    overallPct >= 50 ? { label: "Moderate Exposure", color: "#FCD34D" } :
-    overallPct >= 25 ? { label: "High Exposure",     color: "#FB923C" } :
-                       { label: "Critical Exposure", color: "#FF6B6B" };
+    overallPct >= 66
+      ? { label: "Low Risk", color: "#34D399" }
+      : overallPct >= 33
+        ? { label: "Moderate Risk", color: "#FB923C" }
+        : { label: "Critical Risk", color: "#F472B6" };
 
-  function selectAnswer(qid: string, score: number) {
-    setAnimating(true);
-    setTimeout(() => {
-      setAnswers((prev) => ({ ...prev, [qid]: score }));
-      if (currentQ < QUESTIONS.length - 1) setCurrentQ((q) => q + 1);
-      else setStep("email");
-      setAnimating(false);
-    }, 200);
-  }
+  const weakest = CATEGORIES.filter((cat) => categoryScores[cat] < 1);
+  const strongest = CATEGORIES.filter((cat) => categoryScores[cat] >= 2.5);
 
-  async function generateReport() {
+  /**
+   * Generates the personalized report via Vercel API
+   */
+  const generateReport = async () => {
+    if (!email.trim()) return;
+
     setIsLoading(true);
     setReportError(null);
 
-    // 1. Submit lead to Formspree (fire and forget)
-    fetch("https://formspree.io/f/maqpqloy", {
-      method: "POST",
-      headers: { "Content-Type": "application/json", Accept: "application/json" },
-      body: JSON.stringify({
-        name, company, role, email,
-        tool: "Human + AI Risk Exposure Check",
-        overall_score: `${totalScore}/${maxScore} (${overallPct}%)`,
-        risk_level: riskLevel.label,
-        category_scores: CATEGORIES.map((c) => `${c}: ${categoryScores[c].toFixed(1)}/3`).join(" | "),
-        weakest_areas: weakest.join(", "),
-        _subject: `New Lead: ${name} at ${company} — ${riskLevel.label} (${overallPct}%)`,
-      }),
-    }).catch(() => {});
-
-    // 2. Call backend to generate report + send email
     try {
-      const res = await fetch("/api/generate-report", {
+      const response = await fetch("/api/generate-report", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -400,79 +250,38 @@ export default function RiskExposureCheck() {
           name,
           role,
           company,
-          scores: categoryScores,
+          scores: answers,
           totalScore,
           maxScore,
           riskLevel: riskLevel.label,
-          categories: CATEGORIES,
+          categories: categoryScores,
         }),
       });
 
-      if (!res.ok) {
-        const errData = await res.json().catch(() => ({}));
-        throw new Error(errData.error || `Server error (${res.status})`);
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(
+          errorData.details || "Failed to generate report"
+        );
       }
 
       setStep("results");
-    } catch (err) {
-      console.error("Report generation error:", err);
-      setReportError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : "An unexpected error occurred";
+      setReportError(errorMessage);
+      console.error("Error generating report:", error);
     } finally {
       setIsLoading(false);
     }
-  }
-
-  const inputStyle: CSSProperties = {
-    background: "#0A0A18", border: "1px solid #12121E", borderRadius: 8,
-    padding: "13px 16px", color: "#E8E8F0", fontSize: 14,
-    fontFamily: "inherit", width: "100%",
   };
 
   // ─── INTRO ─────────────────────────────────────────────────────────────────
 
   if (step === "intro") {
-    const radarSize = isMobile ? 230 : isTablet ? 260 : 300;
     return (
       <Shell>
-        <div style={{ maxWidth: 680, margin: "0 auto", padding: isMobile ? "36px 20px 48px" : "64px 24px", textAlign: "center" }}>
-          <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "#0F0F1E", border: "1px solid #1E1E2E", borderRadius: 20, padding: "6px 14px", marginBottom: 22 }}>
-            <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#7EE8FA", boxShadow: "0 0 8px #7EE8FA", flexShrink: 0 }} />
-            <span style={{ color: "#7EE8FA", fontSize: 10, fontWeight: 600, letterSpacing: "0.12em" }}>FREE ASSESSMENT · 8 MINUTES</span>
-          </div>
-          <h1 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: isMobile ? 32 : isTablet ? 42 : 52, fontWeight: 700, color: "#E8E8F0", lineHeight: 1.15, letterSpacing: "-0.02em", marginBottom: 18 }}>
-            Where Is Your Organization<br />
-            <em style={{ color: "#C8A96E", fontStyle: "italic" }}>Actually Exposed?</em>
-          </h1>
-          <p style={{ color: "#7A7A9A", fontSize: isMobile ? 15 : 17, lineHeight: 1.75, maxWidth: 520, margin: "0 auto 36px" }}>
-            Most organizations don't know their real risk profile — they know their compliance status. Those are not the same thing. This assessment maps your human and AI risk exposure across six categories and shows you exactly where the gaps are.
-          </p>
-          <div style={{ display: "flex", justifyContent: "center", marginBottom: 36, overflow: "hidden" }}>
-            <RadarChart
-              scores={CATEGORIES.reduce((a, c, i) => ({ ...a, [c]: 1.5 + Math.sin(i) * 0.8 }), {} as Record<Category, number>)}
-              size={radarSize}
-            />
-          </div>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 8, justifyContent: "center", marginBottom: 32 }}>
-            {CATEGORIES.map((cat) => {
-              const meta = CATEGORY_META[cat];
-              return (
-                <div key={cat} style={{ background: "#0F0F1E", border: `1px solid ${meta.color}30`, borderRadius: 20, padding: "5px 12px", display: "flex", alignItems: "center", gap: 6 }}>
-                  <span style={{ color: meta.color, fontSize: 11 }}>{meta.icon}</span>
-                  <span style={{ color: "#A8A8C8", fontSize: isMobile ? 11 : 13 }}>{cat}</span>
-                </div>
-              );
-            })}
-          </div>
-          <button onClick={() => setStep("questions")} style={{ ...primaryBtn, width: isMobile ? "100%" : "auto" }}>
-            Start the Assessment →
-          </button>
-          <p style={{ color: "#2A2A4A", fontSize: 10, marginTop: 12, letterSpacing: "0.06em" }}>12 QUESTIONS · NO JARGON · PERSONALIZED RESULTS</p>
-          <div style={{ marginTop: 44, paddingTop: 24, borderTop: "1px solid #12121E" }}>
-            <p style={{ color: "#2A2A4A", fontSize: 10, marginBottom: 6, letterSpacing: "0.1em" }}>CREATED BY</p>
-            <p style={{ color: "#C8A96E", fontWeight: 700, fontSize: 14, letterSpacing: "0.05em" }}>LAKEIDRA SMITH</p>
-            <p style={{ color: "#5A5A7A", fontSize: 13 }}>Strategic Risk Advisor · The Cyber Consultant</p>
-          </div>
-        </div>
+        <IntroScreen onStart={() => setStep("questions")} isMobile={isMobile} isTablet={isTablet} />
       </Shell>
     );
   }
@@ -480,175 +289,181 @@ export default function RiskExposureCheck() {
   // ─── QUESTIONS ─────────────────────────────────────────────────────────────
 
   if (step === "questions") {
-    const q = QUESTIONS[currentQ];
-    const meta = CATEGORY_META[q.category];
-    const progress = (currentQ / QUESTIONS.length) * 100;
-    const catProgress = QUESTIONS.filter((x) => x.category === q.category).indexOf(q) + 1;
-    const catTotal = QUESTIONS.filter((x) => x.category === q.category).length;
+    const progress = ((Object.keys(answers).length + 1) / QUESTIONS.length) * 100;
 
     return (
       <Shell>
-        <div style={{ maxWidth: 960, margin: "0 auto", padding: isMobile ? "20px 16px 40px" : "32px 24px 48px" }}>
-          {/* Progress */}
-          <div style={{ marginBottom: 20 }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8, flexWrap: "wrap", gap: 4 }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 7 }}>
-                <span style={{ color: meta.color, fontSize: 13 }}>{meta.icon}</span>
-                <span style={{ color: meta.color, fontSize: 10, fontWeight: 700, letterSpacing: "0.1em" }}>{q.category.toUpperCase()}</span>
-                <span style={{ color: "#2A2A4A", fontSize: 10 }}>· {catProgress}/{catTotal}</span>
-              </div>
-              <span style={{ color: "#2A2A4A", fontSize: 10 }}>{currentQ + 1} / {QUESTIONS.length}</span>
+        <div style={{ maxWidth: 600, margin: "0 auto", padding: isMobile ? "32px 16px 80px" : "52px 24px 100px" }}>
+          {/* Progress Bar */}
+          <div style={{ marginBottom: 32 }}>
+            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
+              <p style={{ color: "#5A5A7A", fontSize: 11, letterSpacing: "0.08em" }}>
+                QUESTION {Object.keys(answers).length + 1} OF {QUESTIONS.length}
+              </p>
+              <p style={{ color: "#5A5A7A", fontSize: 11 }}>{Math.round(progress)}%</p>
             </div>
-            <div style={{ height: 2, background: "#12121E", borderRadius: 1 }}>
-              <div style={{ height: "100%", width: `${progress}%`, background: `linear-gradient(90deg, ${meta.color}, #C8A96E)`, borderRadius: 1, transition: "width 0.5s ease" }} />
+            <div style={{ height: 3, background: "#12121E", borderRadius: 2, overflow: "hidden" }}>
+              <div
+                style={{
+                  height: "100%",
+                  width: `${progress}%`,
+                  background: "linear-gradient(90deg, #7EE8FA, #C8A96E, #A78BFA)",
+                  transition: "width 0.4s ease",
+                }}
+              />
             </div>
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: isTablet ? "1fr" : "1fr 250px", gap: isTablet ? 20 : 32, alignItems: "start" }}>
-            {/* Question */}
-            <div style={{ opacity: animating ? 0 : 1, transform: animating ? "translateX(-6px)" : "translateX(0)", transition: "all 0.2s ease" }}>
-              <div style={{ background: "#0A0A18", border: `1px solid ${meta.color}20`, borderRadius: 14, padding: isMobile ? "18px 16px" : "24px 22px", marginBottom: 12 }}>
-                <h2 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: isMobile ? 18 : 22, color: "#E8E8F0", lineHeight: 1.45, fontWeight: 600, marginBottom: 10 }}>
-                  {q.question}
-                </h2>
-                <p style={{ color: "#4A4A6A", fontSize: 13, lineHeight: 1.6, fontStyle: "italic" }}>{q.context}</p>
+          {currentQuestion && (
+            <div style={{ marginBottom: 32 }}>
+              {/* Category Badge */}
+              <div style={{ marginBottom: 20 }}>
+                <div style={{ display: "inline-block", background: CATEGORY_META[currentQuestion.category].color + "15", border: `1px solid ${CATEGORY_META[currentQuestion.category].color}40`, borderRadius: 20, padding: "5px 14px" }}>
+                  <p style={{ color: CATEGORY_META[currentQuestion.category].color, fontSize: 10, letterSpacing: "0.06em", fontWeight: 600, margin: 0 }}>
+                    {currentQuestion.category.toUpperCase()}
+                  </p>
+                </div>
               </div>
-              <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-                {q.options.map((opt, i) => (
-                  <button key={i} onClick={() => selectAnswer(q.id, opt.score)}
-                    style={{ background: "#0A0A18", border: "1px solid #12121E", borderRadius: 10, padding: isMobile ? "12px 14px" : "14px 18px", textAlign: "left", color: "#9A9AB8", fontSize: isMobile ? 13 : 14, cursor: "pointer", transition: "all 0.15s ease", lineHeight: 1.5, fontFamily: "inherit", display: "flex", alignItems: "flex-start", gap: 11 }}
-                    onMouseOver={(e) => { const el = e.currentTarget; el.style.borderColor = meta.color; el.style.color = "#E8E8F0"; el.style.background = "#0F0F20"; }}
-                    onMouseOut={(e) => { const el = e.currentTarget; el.style.borderColor = "#12121E"; el.style.color = "#9A9AB8"; el.style.background = "#0A0A18"; }}
+
+              {/* Question */}
+              <h2 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: isMobile ? 18 : 22, color: "#E8E8F0", fontWeight: 600, lineHeight: 1.4, marginBottom: 12 }}>
+                {currentQuestion.question}
+              </h2>
+              <p style={{ color: "#5A5A7A", fontSize: 13, lineHeight: 1.6, marginBottom: 28 }}>
+                {currentQuestion.context}
+              </p>
+
+              {/* Options */}
+              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                {currentQuestion.options.map((option, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => {
+                      handleAnswer(currentQuestion.id, option.score);
+                      setTimeout(() => window.scrollTo({ top: 0, behavior: "smooth" }), 50);
+                    }}
+                    style={{
+                      background: "#0A0A18",
+                      border: "1px solid #12121E",
+                      borderRadius: 8,
+                      padding: "14px 16px",
+                      color: "#C8C8E0",
+                      fontSize: 13,
+                      textAlign: "left",
+                      cursor: "pointer",
+                      transition: "all 0.2s",
+                      fontFamily: "inherit",
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = "#12121E";
+                      e.currentTarget.style.borderColor = CATEGORY_META[currentQuestion.category].color + "40";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = "#0A0A18";
+                      e.currentTarget.style.borderColor = "#12121E";
+                    }}
                   >
-                    <span style={{ width: 20, height: 20, borderRadius: "50%", border: `1px solid ${meta.color}40`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, color: meta.color, fontSize: 10, fontWeight: 700, marginTop: 2 }}>
-                      {String.fromCharCode(65 + i)}
-                    </span>
-                    {opt.label}
+                    {option.label}
                   </button>
                 ))}
               </div>
-              {currentQ > 0 && (
-                <button onClick={() => setCurrentQ((q) => q - 1)}
-                  style={{ marginTop: 14, background: "transparent", border: "none", color: "#2A2A4A", fontSize: 13, cursor: "pointer", padding: 0, fontFamily: "inherit" }}>
-                  ← Previous
-                </button>
-              )}
             </div>
+          )}
 
-            {/* Sidebar: full radar on desktop, compact bars on tablet/mobile */}
-            {!isTablet ? (
-              <div style={{ position: "sticky", top: 20 }}>
-                <div style={{ background: "#0A0A18", border: "1px solid #12121E", borderRadius: 14, padding: 18 }}>
-                  <p style={{ color: "#3A3A5A", fontSize: 9, letterSpacing: "0.12em", textAlign: "center", marginBottom: 10 }}>LIVE RISK PROFILE</p>
-                  <div style={{ display: "flex", justifyContent: "center", overflow: "hidden" }}>
-                    <RadarChart scores={categoryScores} size={190} />
-                  </div>
-                  <div style={{ marginTop: 14, display: "flex", flexDirection: "column", gap: 6 }}>
-                    {CATEGORIES.map((cat) => {
-                      const m = CATEGORY_META[cat];
-                      const score = categoryScores[cat];
-                      const answered = QUESTIONS.filter((q) => q.category === cat && answers[q.id] !== undefined).length;
-                      const total = QUESTIONS.filter((q) => q.category === cat).length;
-                      return (
-                        <div key={cat} style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                          <span style={{ color: m.color, fontSize: 8, width: 10, flexShrink: 0 }}>{m.icon}</span>
-                          <div style={{ flex: 1 }}>
-                            <div style={{ height: 2, background: "#12121E", borderRadius: 1 }}>
-                              <div style={{ height: "100%", width: `${(score / 3) * 100}%`, background: m.color, borderRadius: 1, transition: "width 0.6s ease", opacity: answered === 0 ? 0.15 : 1 }} />
-                            </div>
-                          </div>
-                          <span style={{ color: "#2A2A4A", fontSize: 8, width: 18, textAlign: "right", flexShrink: 0 }}>{answered}/{total}</span>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              </div>
-            ) : (
-              <div style={{ display: "flex", flexDirection: "column", gap: 6, padding: "4px 0" }}>
-                <p style={{ color: "#3A3A5A", fontSize: 9, letterSpacing: "0.1em", marginBottom: 2 }}>PROGRESS BY CATEGORY</p>
-                {CATEGORIES.map((cat) => {
-                  const m = CATEGORY_META[cat];
-                  const score = categoryScores[cat];
-                  const answered = QUESTIONS.filter((q) => q.category === cat && answers[q.id] !== undefined).length;
-                  const total = QUESTIONS.filter((q) => q.category === cat).length;
-                  return (
-                    <div key={cat} style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                      <span style={{ color: m.color, fontSize: 9, width: 10, flexShrink: 0 }}>{m.icon}</span>
-                      <span style={{ color: "#3A3A5A", fontSize: 10, width: isMobile ? 70 : 120, flexShrink: 0, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{cat}</span>
-                      <div style={{ flex: 1 }}>
-                        <div style={{ height: 3, background: "#12121E", borderRadius: 2 }}>
-                          <div style={{ height: "100%", width: `${(score / 3) * 100}%`, background: m.color, borderRadius: 2, transition: "width 0.6s ease", opacity: answered === 0 ? 0.15 : 1 }} />
-                        </div>
-                      </div>
-                      <span style={{ color: "#2A2A4A", fontSize: 9, width: 22, textAlign: "right", flexShrink: 0 }}>{answered}/{total}</span>
-                    </div>
-                  );
-                })}
-              </div>
-            )}
-          </div>
+          {Object.keys(answers).length === QUESTIONS.length && (
+            <button
+              onClick={() => setStep("email")}
+              style={{
+                width: "100%",
+                padding: "14px 20px",
+                background: "linear-gradient(90deg, #7EE8FA, #C8A96E)",
+                border: "none",
+                borderRadius: 8,
+                color: "#0A0A18",
+                fontWeight: 700,
+                fontSize: 14,
+                cursor: "pointer",
+                transition: "all 0.2s",
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.transform = "translateY(-2px)")}
+              onMouseLeave={(e) => (e.currentTarget.style.transform = "translateY(0)")}
+            >
+              See My Results →
+            </button>
+          )}
         </div>
       </Shell>
     );
   }
 
-  // ─── EMAIL GATE ────────────────────────────────────────────────────────────
+  // ─── EMAIL CAPTURE ─────────────────────────────────────────────────────────
 
   if (step === "email") {
+    const primaryBtn: CSSProperties = {
+      background: "linear-gradient(90deg, #7EE8FA, #C8A96E)",
+      border: "none",
+      borderRadius: 8,
+      padding: "12px 24px",
+      color: "#0A0A18",
+      fontWeight: 700,
+      fontSize: 14,
+      cursor: "pointer",
+      transition: "all 0.2s",
+    };
+
+    const inputStyle: CSSProperties = {
+      background: "#0A0A18",
+      border: "1px solid #12121E",
+      borderRadius: 8,
+      padding: "10px 12px",
+      color: "#E8E8F0",
+      fontSize: 13,
+      fontFamily: "inherit",
+      transition: "border-color 0.2s",
+    };
+
     return (
       <Shell>
-        <div style={{ maxWidth: 900, margin: "0 auto", padding: isMobile ? "32px 20px" : "48px 24px" }}>
-          <div style={{ display: "grid", gridTemplateColumns: isTablet ? "1fr" : "1fr 1fr", gap: isTablet ? 28 : 48, alignItems: "center" }}>
-            {/* Teaser radar — below form on mobile */}
-            <div style={{ textAlign: "center", order: isTablet ? 2 : 1 }}>
-              <p style={{ color: "#5A5A7A", fontSize: 10, letterSpacing: "0.12em", marginBottom: 14 }}>YOUR RISK PROFILE IS READY</p>
-              <div style={{ position: "relative", display: "inline-block", maxWidth: "100%" }}>
-                <div style={{ filter: "blur(4px)", opacity: 0.55 }}>
-                  <RadarChart scores={categoryScores} size={isMobile ? 200 : 250} />
-                </div>
-                <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                  <div style={{ background: "rgba(7,7,16,0.92)", border: "1px solid #C8A96E40", borderRadius: 12, padding: "10px 16px", backdropFilter: "blur(4px)" }}>
-                    <p style={{ color: "#C8A96E", fontSize: isMobile ? 11 : 12, fontWeight: 700, textAlign: "center", margin: 0, lineHeight: 1.5 }}>
-                      Enter your details<br />to reveal your results
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <p style={{ color: "#3A3A5A", fontSize: 11, marginTop: 12 }}>6-axis risk profile · AI-written analysis · Personalized priorities</p>
+        <div style={{ maxWidth: 480, margin: "0 auto", padding: isMobile ? "32px 16px 80px" : "52px 24px 100px" }}>
+          {/* Badge */}
+          <div style={{ textAlign: "center", marginBottom: 32 }}>
+            <p style={{ color: "#5A5A7A", fontSize: 10, letterSpacing: "0.15em", marginBottom: 16 }}>
+              ALMOST THERE
+            </p>
+            <h2 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: isMobile ? 20 : 26, color: "#E8E8F0", fontWeight: 600, lineHeight: 1.3, marginBottom: 12 }}>
+              Get your personalized risk report
+            </h2>
+            <p style={{ color: "#5A5A7A", fontSize: 13, lineHeight: 1.6 }}>
+              We'll analyze your specific results and send a personalized report directly to your inbox.
+            </p>
+          </div>
+
+          {/* Form */}
+          <div style={{ background: "#0A0A18", border: "1px solid #12121E", borderRadius: 12, padding: 20, marginBottom: 16 }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+              {[
+                { placeholder: "Your name", value: name, set: setName, type: "text", nm: "name" },
+                { placeholder: "Your role (e.g. CISO, CFO, General Counsel)", value: role, set: setRole, type: "text", nm: "role" },
+                { placeholder: "Company name", value: company, set: setCompany, type: "text", nm: "company" },
+                { placeholder: "Work email address", value: email, set: setEmail, type: "email", nm: "email" },
+              ].map((f, i) => (
+                <input key={i} type={f.type} name={f.nm} placeholder={f.placeholder} value={f.value}
+                  onChange={(e) => f.set(e.target.value)} style={inputStyle}
+                  onFocus={(e) => (e.currentTarget.style.borderColor = "#C8A96E")}
+                  onBlur={(e) => (e.currentTarget.style.borderColor = "#12121E")}
+                />
+              ))}
             </div>
-            {/* Form */}
-            <div style={{ order: isTablet ? 1 : 2 }}>
-              <h2 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: isMobile ? 24 : 29, color: "#E8E8F0", lineHeight: 1.3, marginBottom: 10, fontWeight: 600 }}>
-                Your profile is built.<br />
-                <em style={{ color: "#C8A96E", fontStyle: "italic" }}>Let's reveal it.</em>
-              </h2>
-              <p style={{ color: "#5A5A7A", fontSize: 14, lineHeight: 1.65, marginBottom: 22 }}>
-                Enter your details to unlock your full risk radar, category breakdown, and a personalized analysis written to your specific results.
+            <button onClick={generateReport} disabled={!email.trim() || isLoading}
+              style={{ ...primaryBtn, width: "100%", marginTop: 16, opacity: email.trim() && !isLoading ? 1 : 0.4, cursor: email.trim() && !isLoading ? "pointer" : "not-allowed" }}>
+              {isLoading ? "Generating Your Report..." : "Reveal My Risk Profile →"}
+            </button>
+            {reportError && (
+              <p style={{ color: "#F472B6", fontSize: 12, marginTop: 12, textAlign: "center" }}>
+                {reportError}
               </p>
-              <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 14 }}>
-                {[
-                  { placeholder: "First name", value: name, set: setName, type: "text", nm: "name" },
-                  { placeholder: "Your role (e.g. CISO, CFO, General Counsel)", value: role, set: setRole, type: "text", nm: "role" },
-                  { placeholder: "Company name", value: company, set: setCompany, type: "text", nm: "company" },
-                  { placeholder: "Work email address", value: email, set: setEmail, type: "email", nm: "email" },
-                ].map((f, i) => (
-                  <input key={i} type={f.type} name={f.nm} placeholder={f.placeholder} value={f.value}
-                    onChange={(e) => f.set(e.target.value)} style={inputStyle}
-                    onFocus={(e) => (e.target.style.borderColor = "#C8A96E")}
-                    onBlur={(e) => (e.target.style.borderColor = "#12121E")}
-                  />
-                ))}
-              </div>
-              <button onClick={generateReport} disabled={isLoading || !email.trim()}
-                style={{ ...primaryBtn, width: "100%", opacity: (isLoading || !email.trim()) ? 0.4 : 1, cursor: (isLoading || !email.trim()) ? "not-allowed" : "pointer" }}>
-                {isLoading ? "Generating Your Report..." : "Reveal My Risk Profile →"}
-              </button>
-              {reportError && (
-                <p style={{ color: "#F472B6", fontSize: 13, marginTop: 8 }}>{reportError}</p>
-              )}
-              <p style={{ color: "#2A2A4A", fontSize: 11, marginTop: 10 }}>No spam. Your data stays with The Cyber Consultant.</p>
-            </div>
+            )}
+            <p style={{ color: "#2A2A4A", fontSize: 11, marginTop: 10 }}>No spam. Your data stays with The Cyber Consultant.</p>
           </div>
         </div>
       </Shell>
@@ -742,7 +557,7 @@ export default function RiskExposureCheck() {
             A 30-minute strategy call with Lakeidra gives you a clear picture of where to focus first — specific to your organization, your team, and your risk tolerance.
           </p>
           <a href="https://calendly.com/podcast-lakeidra/discovery-call" target="_blank" rel="noreferrer"
-            style={{ ...primaryBtn, display: "inline-block", textDecoration: "none", width: isMobile ? "100%" : "auto", textAlign: "center" as const }}>
+            style={{ display: "inline-block", background: "linear-gradient(90deg, #7EE8FA, #C8A96E)", border: "none", borderRadius: 8, padding: "12px 24px", color: "#0A0A18", fontWeight: 700, fontSize: 14, cursor: "pointer", textDecoration: "none", transition: "all 0.2s" }}>
             Book a Free Strategy Call →
           </a>
           <div style={{ marginTop: 22, paddingTop: 18, borderTop: "1px solid #12121E", display: "flex", alignItems: "center", justifyContent: "center", gap: 10, flexWrap: "wrap" }}>
@@ -765,5 +580,150 @@ export default function RiskExposureCheck() {
         </div>
       </div>
     </Shell>
+  );
+}
+
+// ─── Shell Component ────────────────────────────────────────────────────────
+
+function Shell({ children }: { children: React.ReactNode }) {
+  return (
+    <div style={{ background: "#0A0A18", color: "#E8E8F0", minHeight: "100vh", fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif" }}>
+      {children}
+    </div>
+  );
+}
+
+// ─── Intro Screen ────────────────────────────────────────────────────────────
+
+function IntroScreen({ onStart, isMobile, isTablet }: { onStart: () => void; isMobile: boolean; isTablet: boolean }) {
+  return (
+    <div style={{ maxWidth: 700, margin: "0 auto", padding: isMobile ? "40px 16px 80px" : "80px 24px 120px", textAlign: "center" }}>
+      <div style={{ marginBottom: 40 }}>
+        <div style={{ display: "inline-block", background: "#C8A96E15", border: "1px solid #C8A96E40", borderRadius: 24, padding: "8px 16px", marginBottom: 24 }}>
+          <p style={{ color: "#C8A96E", fontSize: 10, letterSpacing: "0.1em", fontWeight: 600, margin: 0 }}>RISK ASSESSMENT</p>
+        </div>
+        <h1 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: isMobile ? 32 : 48, color: "#E8E8F0", fontWeight: 600, lineHeight: 1.2, marginBottom: 16 }}>
+          Map Your Human + AI Risk Exposure
+        </h1>
+        <p style={{ color: "#7A7A9A", fontSize: 16, lineHeight: 1.65, maxWidth: 500, margin: "0 auto 28px" }}>
+          In 5 minutes, understand where your organization is exposed — across AI governance, human behavior, access control, incident readiness, data security, and leadership alignment.
+        </p>
+      </div>
+
+      <div style={{ background: "#0A0A18", border: "1px solid #12121E", borderRadius: 16, padding: isMobile ? "24px 16px" : 32, marginBottom: 28 }}>
+        <div style={{ display: "grid", gridTemplateColumns: isTablet ? "1fr" : "1fr 1fr", gap: isTablet ? 16 : 20, marginBottom: 24 }}>
+          {[
+            { icon: "◈", label: "AI Governance", desc: "Policies, oversight & vendor risk" },
+            { icon: "◎", label: "Human Behavior", desc: "Culture, reporting & decisions" },
+            { icon: "⬡", label: "Access & Identity", desc: "Who has access to what" },
+            { icon: "✦", label: "Incident Readiness", desc: "Response plans & practice" },
+            { icon: "◉", label: "Data Exposure", desc: "Where sensitive data lives" },
+            { icon: "◐", label: "Leadership Alignment", desc: "Risk culture at the top" },
+          ].map((item, i) => (
+            <div key={i} style={{ textAlign: "left", padding: "12px 0" }}>
+              <p style={{ color: "#5A5A7A", fontSize: 10, letterSpacing: "0.08em", fontWeight: 700, marginBottom: 4 }}>
+                {item.icon} {item.label.toUpperCase()}
+              </p>
+              <p style={{ color: "#3A3A5A", fontSize: 12, lineHeight: 1.5, margin: 0 }}>
+                {item.desc}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <button onClick={onStart} style={{ background: "linear-gradient(90deg, #7EE8FA, #C8A96E)", border: "none", borderRadius: 8, padding: "14px 32px", color: "#0A0A18", fontWeight: 700, fontSize: 16, cursor: "pointer", transition: "all 0.2s", marginBottom: 16 }}
+        onMouseEnter={(e) => (e.currentTarget.style.transform = "translateY(-2px)")}
+        onMouseLeave={(e) => (e.currentTarget.style.transform = "translateY(0)")}>
+        Start Assessment →
+      </button>
+      <p style={{ color: "#3A3A5A", fontSize: 12 }}>Takes 5 minutes · No spam</p>
+    </div>
+  );
+}
+
+// ─── Radar Chart Component ────────────────────────────────────────────────────
+
+function RadarChart({ scores, animated, size }: { scores: Record<Category, number>; animated: boolean; size: number }) {
+  const categories = Object.keys(scores) as Category[];
+  const data = categories.map((cat) => ({ category: cat, score: scores[cat] }));
+
+  const centerX = size / 2;
+  const centerY = size / 2;
+  const maxRadius = size / 3;
+
+  const getPoint = (index: number, value: number) => {
+    const angle = (index / categories.length) * Math.PI * 2 - Math.PI / 2;
+    const r = (value / 3) * maxRadius;
+    return { x: centerX + r * Math.cos(angle), y: centerY + r * Math.sin(angle) };
+  };
+
+  const points = data.map((d, i) => getPoint(i, d.score)).map((p) => `${p.x},${p.y}`).join(" ");
+
+  const gridLevels = [1, 2, 3];
+  const gridPoints = gridLevels.map((level) =>
+    Array.from({ length: categories.length }, (_, i) => getPoint(i, level)).map((p) => `${p.x},${p.y}`).join(" ")
+  );
+
+  return (
+    <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} style={{ maxWidth: "100%" }}>
+      {/* Grid */}
+      {gridPoints.map((pts, i) => (
+        <polygon key={i} points={pts} fill="none" stroke="#12121E" strokeWidth="1" />
+      ))}
+
+      {/* Axes */}
+      {categories.map((_, i) => {
+        const p = getPoint(i, 3);
+        return (
+          <line key={i} x1={centerX} y1={centerY} x2={p.x} y2={p.y} stroke="#12121E" strokeWidth="1" />
+        );
+      })}
+
+      {/* Data polygon */}
+      <polygon
+        points={points}
+        fill="url(#radarGradient)"
+        fillOpacity={animated ? 0.3 : 0.2}
+        stroke="url(#radarGradient)"
+        strokeWidth="2"
+        style={{ animation: animated ? "radarPulse 1.5s ease-out" : "none" }}
+      />
+
+      {/* Labels */}
+      {categories.map((cat, i) => {
+        const meta = CATEGORY_META[cat];
+        const p = getPoint(i, 3.4);
+        return (
+          <text
+            key={i}
+            x={p.x}
+            y={p.y}
+            textAnchor="middle"
+            dominantBaseline="middle"
+            fill={meta.color}
+            fontSize="10"
+            fontWeight="500"
+            style={{ pointerEvents: "none" }}
+          >
+            {meta.icon}
+          </text>
+        );
+      })}
+
+      <defs>
+        <linearGradient id="radarGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#7EE8FA" stopOpacity="1" />
+          <stop offset="100%" stopColor="#C8A96E" stopOpacity="1" />
+        </linearGradient>
+      </defs>
+
+      <style>{`
+        @keyframes radarPulse {
+          from { opacity: 0.5; }
+          to { opacity: 0.3; }
+        }
+      `}</style>
+    </svg>
   );
 }
