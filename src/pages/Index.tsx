@@ -20,11 +20,11 @@ const Index = () => {
             <p className="text-cream/80 text-lg leading-relaxed mb-8 max-w-xl">
               The Cyber Consultant partners with workforce development organizations, training providers, and corporate teams to build the cybersecurity mindset, curriculum, and culture that technology alone can never provide.
             </p>
-            <div className="flex flex-wrap gap-4">
-              <Button variant="hero-primary" size="lg" asChild>
+            <div className="flex gap-4">
+              <Button variant="hero-primary" size="lg" className="whitespace-nowrap text-sm md:text-base" asChild>
                 <Link to="/scorecard">Assess Your Board Readiness</Link>
               </Button>
-              <Button variant="hero-secondary" size="lg" asChild>
+              <Button variant="hero-secondary" size="lg" className="whitespace-nowrap text-sm md:text-base" asChild>
                 <Link to="/risk-check">Assess Your Risk Profile</Link>
               </Button>
             </div>
@@ -33,7 +33,7 @@ const Index = () => {
             <img
               src={lakeidraHero}
               alt="Lakeidra Smith, Founder of The Cyber Consultant"
-              className="rounded-2xl shadow-2xl max-w-sm w-full object-cover aspect-[3/4]"
+              className="rounded-2xl shadow-2xl max-w-[280px] md:max-w-sm w-full object-cover aspect-[3/4]"
             />
           </AnimatedSection>
         </div>
