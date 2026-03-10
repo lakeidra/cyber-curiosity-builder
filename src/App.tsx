@@ -9,6 +9,7 @@ import Services from "./pages/Services";
 import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
 import BoardReadiness from "./pages/BoardReadiness";
+import RiskExposureCheck from "./pages/RiskExposureCheck";
 
 const queryClient = new QueryClient();
 
@@ -24,6 +25,7 @@ const App = () => (
           <Route path="/services" element={<Services />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/scorecard" element={<BoardReadiness />} />
+          <Route path="/risk-check" element={<RiskExposureCheck />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
