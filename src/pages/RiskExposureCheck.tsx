@@ -1,5 +1,4 @@
 import { useState, useRef, useEffect, CSSProperties } from "react";
-import emailjs from "@emailjs/browser";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
