@@ -33,7 +33,7 @@ const Index = () => {
             <img
               src={lakeidraHero}
               alt="Lakeidra Smith, Founder of The Cyber Consultant"
-              className="rounded-2xl shadow-2xl max-w-sm w-full object-cover aspect-[3/4]"
+              className="rounded-2xl shadow-2xl max-w-[280px] md:max-w-sm w-full object-cover aspect-[3/4]"
             />
           </AnimatedSection>
         </div>
