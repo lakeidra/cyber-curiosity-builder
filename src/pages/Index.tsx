@@ -22,10 +22,10 @@ const Index = () => {
             </p>
             <div className="flex flex-wrap gap-4">
               <Button variant="hero-primary" size="lg" asChild>
-                <a href="https://the-cyber-consultant.com/scorecard">Assess Your Board Readiness</a>
+                <Link to="/scorecard">Assess Your Board Readiness</Link>
               </Button>
               <Button variant="hero-secondary" size="lg" asChild>
-                <a href="https://the-cyber-consultant.com/risk-check">Assess Your Risk Profile</a>
+                <Link to="/risk-check">Assess Your Risk Profile</Link>
               </Button>
             </div>
           </AnimatedSection>
