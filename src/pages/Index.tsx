@@ -20,11 +20,11 @@ const Index = () => {
             <p className="text-cream/80 text-lg leading-relaxed mb-8 max-w-xl">
               The Cyber Consultant partners with workforce development organizations, training providers, and corporate teams to build the cybersecurity mindset, curriculum, and culture that technology alone can never provide.
             </p>
-            <div className="flex gap-4">
-              <Button variant="hero-primary" size="lg" className="whitespace-nowrap text-sm md:text-base" asChild>
+            <div className="flex gap-2 sm:gap-4">
+              <Button variant="hero-primary" size="lg" className="whitespace-nowrap text-[11px] sm:text-sm md:text-base px-2.5 sm:px-4 md:px-6" asChild>
                 <Link to="/scorecard">Assess Your Board Readiness</Link>
               </Button>
-              <Button variant="hero-secondary" size="lg" className="whitespace-nowrap text-sm md:text-base" asChild>
+              <Button variant="hero-secondary" size="lg" className="whitespace-nowrap text-[11px] sm:text-sm md:text-base px-2.5 sm:px-4 md:px-6" asChild>
                 <Link to="/risk-check">Assess Your Risk Profile</Link>
               </Button>
             </div>
