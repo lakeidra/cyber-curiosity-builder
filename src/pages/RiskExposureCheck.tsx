@@ -357,6 +357,8 @@ export default function RiskExposureCheck() {
   const [email, setEmail] = useState("");
   const [copied, setCopied] = useState(false);
   const [animating, setAnimating] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [reportError, setReportError] = useState<string | null>(null);
   const reportRef = useRef<HTMLDivElement>(null);
 
   const categoryScores: Record<Category, number> = CATEGORIES.reduce((acc, cat) => {
