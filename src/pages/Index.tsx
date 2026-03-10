@@ -202,31 +202,6 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Testimonials */}
-      <section className="bg-cream">
-        <div className="container-page py-20 md:py-24">
-          <AnimatedSection className="text-center mb-12">
-            <h2 className="font-serif text-3xl md:text-4xl">What People Are Saying</h2>
-          </AnimatedSection>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              { quote: "Lakeidra made cybersecurity feel accessible and actionable. Our team left the workshop with habits they still use today.", name: "Director of Operations", org: "Fortune 500 Company" },
-              { quote: "She doesn't lecture — she connects. Our staff finally understood why cybersecurity is their responsibility too.", name: "VP of Learning & Development", org: "Regional Nonprofit" },
-              { quote: "The Cyber Curiosity framework changed how our entire organization thinks about digital risk. Simple, memorable, powerful.", name: "Executive Director", org: "Workforce Development Org" },
-            ].map((t, i) => (
-              <AnimatedSection key={i} delay={i * 0.1}>
-                <div className="bg-cream-dark rounded-xl p-6 border border-border h-full flex flex-col">
-                  <p className="text-foreground leading-relaxed italic flex-1 mb-4">"{t.quote}"</p>
-                  <div>
-                    <p className="font-semibold text-sm">{t.name}</p>
-                    <p className="text-muted-foreground text-sm">{t.org}</p>
-                  </div>
-                </div>
-              </AnimatedSection>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* Bottom CTA */}
       <section className="bg-navy text-cream">
