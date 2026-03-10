@@ -657,10 +657,13 @@ export default function RiskExposureCheck() {
                   />
                 ))}
               </div>
-              <button onClick={generateReport} disabled={!email.trim()}
-                style={{ ...primaryBtn, width: "100%", opacity: email.trim() ? 1 : 0.4, cursor: email.trim() ? "pointer" : "not-allowed" }}>
-                Reveal My Risk Profile →
+              <button onClick={generateReport} disabled={isLoading || !email.trim()}
+                style={{ ...primaryBtn, width: "100%", opacity: (isLoading || !email.trim()) ? 0.4 : 1, cursor: (isLoading || !email.trim()) ? "not-allowed" : "pointer" }}>
+                {isLoading ? "Generating Your Report..." : "Reveal My Risk Profile →"}
               </button>
+              {reportError && (
+                <p style={{ color: "#F472B6", fontSize: 13, marginTop: 8 }}>{reportError}</p>
+              )}
               <p style={{ color: "#2A2A4A", fontSize: 11, marginTop: 10 }}>No spam. Your data stays with The Cyber Consultant.</p>
             </div>
           </div>
