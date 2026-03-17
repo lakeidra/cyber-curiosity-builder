@@ -4,7 +4,7 @@ const Footer = () => {
   return (
     <footer className="bg-navy text-cream/70 py-12 border-t border-navy-light">
       <div className="container-page">
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-8 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
           <div>
             <div className="flex items-center gap-2 mb-3">
               <img src={logo} alt="The Cyber Consultant" className="h-8 w-auto" />
@@ -21,13 +21,6 @@ const Footer = () => {
               <Link to="/about" className="text-sm hover:text-gold transition-colors">About</Link>
               <Link to="/services" className="text-sm hover:text-gold transition-colors">Services</Link>
               <Link to="/contact" className="text-sm hover:text-gold transition-colors">Contact</Link>
-            </div>
-          </div>
-          <div>
-            <h5 className="font-semibold text-cream mb-3 text-sm uppercase tracking-wider">Resources</h5>
-            <div className="flex flex-col gap-2">
-              <Link to="/scorecard" className="text-sm hover:text-gold transition-colors">Board Cyber Readiness Scorecard</Link>
-              <Link to="/risk-check" className="text-sm hover:text-gold transition-colors">Human + AI Risk Exposure Check</Link>
             </div>
           </div>
           <div>

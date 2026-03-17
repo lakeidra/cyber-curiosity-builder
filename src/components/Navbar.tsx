@@ -1,7 +1,7 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Menu, X, ChevronDown } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import logo from "@/assets/logo.png";
 
 const navLinks = [
@@ -11,31 +11,11 @@ const navLinks = [
   { label: "Contact", to: "/contact" },
 ];
 
-const resourceLinks = [
-  { label: "Board Cyber Readiness Scorecard", to: "/scorecard" },
-  { label: "Human + AI Risk Exposure Check", to: "/risk-check" },
-];
-
 const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [resourcesOpen, setResourcesOpen] = useState(false);
-  const [mobileResourcesOpen, setMobileResourcesOpen] = useState(false);
   const location = useLocation();
-  const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
-        setResourcesOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-
-  useEffect(() => {
-    setResourcesOpen(false);
-    setMobileResourcesOpen(false);
     setMobileOpen(false);
   }, [location.pathname]);
 
@@ -60,29 +40,6 @@ const Navbar = () => {
               {link.label}
             </Link>
           ))}
-          <div
-            ref={dropdownRef}
-            className="relative"
-            onMouseEnter={() => setResourcesOpen(true)}
-            onMouseLeave={() => setResourcesOpen(false)}
-          >
-            <button className="text-sm font-medium transition-colors hover:text-gold text-cream/80 flex items-center gap-1">
-              Resources <ChevronDown size={14} />
-            </button>
-            {resourcesOpen && (
-              <div className="absolute top-full right-0 mt-2 w-64 bg-navy border border-navy-light rounded-lg shadow-xl py-2">
-                {resourceLinks.map((link) => (
-                  <Link
-                    key={link.to}
-                    to={link.to}
-                    className="block px-4 py-2 text-sm text-cream/80 hover:text-gold hover:bg-navy-light transition-colors"
-                  >
-                    {link.label}
-                  </Link>
-                ))}
-              </div>
-            )}
-          </div>
           <Button variant="nav-cta" size="sm" asChild>
             <a href="https://calendly.com/podcast-lakeidra/discovery-call" target="_blank" rel="noopener noreferrer">
               Schedule a Discovery Call
@@ -116,26 +73,6 @@ const Navbar = () => {
                 {link.label}
               </Link>
             ))}
-            <button
-              onClick={() => setMobileResourcesOpen(!mobileResourcesOpen)}
-              className="text-base font-medium py-2 transition-colors hover:text-gold text-cream/80 flex items-center gap-1 text-left"
-            >
-              Resources <ChevronDown size={14} className={`transition-transform ${mobileResourcesOpen ? "rotate-180" : ""}`} />
-            </button>
-            {mobileResourcesOpen && (
-              <div className="flex flex-col gap-2 pl-4">
-                {resourceLinks.map((link) => (
-                  <Link
-                    key={link.to}
-                    to={link.to}
-                    onClick={() => setMobileOpen(false)}
-                    className="text-sm text-cream/70 hover:text-gold transition-colors py-1"
-                  >
-                    {link.label}
-                  </Link>
-                ))}
-              </div>
-            )}
             <Button variant="nav-cta" className="w-full mt-2" asChild>
               <a href="https://calendly.com/podcast-lakeidra/discovery-call" target="_blank" rel="noopener noreferrer">
                 Schedule a Discovery Call

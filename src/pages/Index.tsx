@@ -22,10 +22,10 @@ const Index = () => {
             </p>
             <div className="flex gap-2 sm:gap-4">
               <Button variant="hero-primary" size="lg" className="whitespace-nowrap text-[11px] sm:text-sm md:text-base px-2.5 sm:px-4 md:px-6" asChild>
-                <Link to="/scorecard">Assess Your Board Readiness</Link>
+                <a href="https://calendly.com/podcast-lakeidra/discovery-call" target="_blank" rel="noopener noreferrer">Schedule a Discovery Call</a>
               </Button>
               <Button variant="hero-secondary" size="lg" className="whitespace-nowrap text-[11px] sm:text-sm md:text-base px-2.5 sm:px-4 md:px-6" asChild>
-                <Link to="/risk-check">Assess Your Risk Profile</Link>
+                <Link to="/services">Learn More</Link>
               </Button>
             </div>
           </AnimatedSection>
