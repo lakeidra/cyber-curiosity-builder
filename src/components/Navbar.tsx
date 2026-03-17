@@ -16,18 +16,6 @@ const Navbar = () => {
   const location = useLocation();
 
   useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
-        setResourcesOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-
-  useEffect(() => {
-    setResourcesOpen(false);
-    setMobileResourcesOpen(false);
     setMobileOpen(false);
   }, [location.pathname]);
 
