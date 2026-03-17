@@ -24,13 +24,6 @@ const Footer = () => {
             </div>
           </div>
           <div>
-            <h5 className="font-semibold text-cream mb-3 text-sm uppercase tracking-wider">Resources</h5>
-            <div className="flex flex-col gap-2">
-              <Link to="/scorecard" className="text-sm hover:text-gold transition-colors">Board Cyber Readiness Scorecard</Link>
-              <Link to="/risk-check" className="text-sm hover:text-gold transition-colors">Human + AI Risk Exposure Check</Link>
-            </div>
-          </div>
-          <div>
             <h5 className="font-semibold text-cream mb-3 text-sm uppercase tracking-wider">Quick Links</h5>
             <div className="flex flex-col gap-2 text-sm">
               <a href="https://www.amazon.com/Cyber-Curiosity-Beginners-Cybersecurity-Yourself/dp/1636768695/" target="_blank" rel="noopener noreferrer" className="hover:text-gold transition-colors">Cyber Curiosity Book</a>
