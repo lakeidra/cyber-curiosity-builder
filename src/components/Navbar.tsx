@@ -11,11 +11,6 @@ const navLinks = [
   { label: "Contact", to: "/contact" },
 ];
 
-const resourceLinks = [
-  { label: "Board Cyber Readiness Scorecard", to: "/scorecard" },
-  { label: "Human + AI Risk Exposure Check", to: "/risk-check" },
-];
-
 const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [resourcesOpen, setResourcesOpen] = useState(false);
