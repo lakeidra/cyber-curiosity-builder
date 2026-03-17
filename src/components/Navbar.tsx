@@ -55,29 +55,6 @@ const Navbar = () => {
               {link.label}
             </Link>
           ))}
-          <div
-            ref={dropdownRef}
-            className="relative"
-            onMouseEnter={() => setResourcesOpen(true)}
-            onMouseLeave={() => setResourcesOpen(false)}
-          >
-            <button className="text-sm font-medium transition-colors hover:text-gold text-cream/80 flex items-center gap-1">
-              Resources <ChevronDown size={14} />
-            </button>
-            {resourcesOpen && (
-              <div className="absolute top-full right-0 mt-2 w-64 bg-navy border border-navy-light rounded-lg shadow-xl py-2">
-                {resourceLinks.map((link) => (
-                  <Link
-                    key={link.to}
-                    to={link.to}
-                    className="block px-4 py-2 text-sm text-cream/80 hover:text-gold hover:bg-navy-light transition-colors"
-                  >
-                    {link.label}
-                  </Link>
-                ))}
-              </div>
-            )}
-          </div>
           <Button variant="nav-cta" size="sm" asChild>
             <a href="https://calendly.com/podcast-lakeidra/discovery-call" target="_blank" rel="noopener noreferrer">
               Schedule a Discovery Call
