@@ -33,11 +33,16 @@ const Navbar = () => {
             <Link
               key={link.to}
               to={link.to}
-              className={`text-sm font-medium transition-colors hover:text-gold ${
-                location.pathname === link.to ? "text-gold" : "text-cream/80"
+              className={`text-sm font-medium transition-colors relative group ${
+                location.pathname === link.to ? "text-gold" : "text-cream/80 hover:text-gold"
               }`}
             >
               {link.label}
+              <span
+                className={`absolute -bottom-1 left-0 h-px bg-gold transition-all duration-200 ${
+                  location.pathname === link.to ? "w-full" : "w-0 group-hover:w-full"
+                }`}
+              />
             </Link>
           ))}
           <Button variant="nav-cta" size="sm" asChild>
@@ -66,8 +71,8 @@ const Navbar = () => {
                 key={link.to}
                 to={link.to}
                 onClick={() => setMobileOpen(false)}
-                className={`text-base font-medium py-2 transition-colors hover:text-gold ${
-                  location.pathname === link.to ? "text-gold" : "text-cream/80"
+                className={`text-base font-medium py-2 transition-colors ${
+                  location.pathname === link.to ? "text-gold" : "text-cream/80 hover:text-gold"
                 }`}
               >
                 {link.label}
