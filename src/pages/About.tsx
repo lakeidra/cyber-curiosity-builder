@@ -4,6 +4,7 @@ import Layout from "@/components/Layout";
 import AnimatedSection from "@/components/AnimatedSection";
 import { ArrowRight } from "lucide-react";
 import lakeidraAbout from "@/assets/lakeidra-about.jpg";
+import bookCover from "@/assets/cyber-curiosity-book.png";
 
 const About = () => {
   return (
@@ -12,7 +13,7 @@ const About = () => {
       <section className="bg-navy text-cream">
         <div className="container-page py-24 md:py-32 text-center max-w-[800px] mx-auto">
           <AnimatedSection>
-            <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl leading-[1.1] mb-4">
+            <h1 className="font-serif text-[40px] md:text-5xl lg:text-[4.5rem] leading-[1.1] mb-4">
               Helping Humans Understand Machines.
             </h1>
             <p className="text-cream/70 text-xl">The story behind The Cyber Consultant.</p>
@@ -31,11 +32,12 @@ const About = () => {
             />
           </AnimatedSection>
           <AnimatedSection delay={0.15}>
-            <h2 className="font-serif text-3xl md:text-4xl leading-[1.15] mb-6">
+            <p className="eyebrow mb-4">The Founder</p>
+            <h2 className="font-serif text-[32px] md:text-[48px] leading-[1.15] mb-6">
               She's been in the machine since childhood.
             </h2>
             <p className="text-muted-foreground text-[17px] leading-[1.7] mb-4">
-              Before Lakeidra Smith was a keynote speaker, she was a nine-year-old who broke her Christmas laptop out of curiosity — and fixed it. Before she was a bestselling author, she was a fifteen-year-old charging neighbors for virus removal and website builds, learning by doing what most people are afraid to touch.
+              Before Lakeidra Smith was a cybersecurity educator, she was a nine-year-old who broke her Christmas laptop out of curiosity — and fixed it. Before she was a keynote speaker, she was a fifteen-year-old charging neighbors for virus removal and website builds.
             </p>
             <p className="text-muted-foreground text-[17px] leading-[1.7] mb-4">
               That technical foundation — built through years of hands-on tinkering before she ever set foot in a classroom — is what makes her different. She doesn't translate cybersecurity into human language because she studied communications. She does it because she has lived on both sides of the screen, and she knows exactly where the gap lives.
@@ -49,7 +51,7 @@ const About = () => {
       <section className="bg-navy text-cream">
         <div className="container-page py-24 md:py-32 max-w-[680px] mx-auto">
           <AnimatedSection>
-            <h2 className="font-serif text-3xl md:text-4xl leading-[1.15] mb-6">
+            <h2 className="font-serif text-[32px] md:text-[48px] leading-[1.15] mb-6">
               A phone call. One sentence. A conviction.
             </h2>
             <p className="text-cream/80 text-[17px] leading-[1.7] mb-6">
@@ -61,7 +63,7 @@ const About = () => {
           </AnimatedSection>
           <AnimatedSection delay={0.15}>
             <blockquote className="pull-quote py-8 my-10">
-              <p className="font-serif text-3xl md:text-[40px] italic leading-[1.2] text-cream">
+              <p className="font-serif text-[28px] md:text-[36px] italic leading-[1.2] text-cream">
                 "Well, our data is already gone anyway. Who cares."
               </p>
             </blockquote>
@@ -81,7 +83,8 @@ const About = () => {
       <section className="bg-cream">
         <div className="container-page py-24 md:py-32 max-w-[680px] mx-auto">
           <AnimatedSection>
-            <h2 className="font-serif text-3xl md:text-4xl leading-[1.15] mb-6">Education is liberation.</h2>
+            <p className="eyebrow mb-4">Why This Work Matters</p>
+            <h2 className="font-serif text-[32px] md:text-[48px] leading-[1.15] mb-6">Education is liberation.</h2>
             <p className="text-muted-foreground text-[17px] leading-[1.7] mb-4">
               Long before cybersecurity, there was a grandmother. A sharecropper's daughter who earned her master's degree during the civil rights era and taught special education for over 35 years in a community shaped by socioeconomic barriers.
             </p>
@@ -95,19 +98,22 @@ const About = () => {
         </div>
       </section>
 
-      {/* Section 5 — The Company */}
-      <section className="bg-cream border-t-2 border-gold/20">
-        <div className="container-page py-24 md:py-32 max-w-[680px] mx-auto">
-          <AnimatedSection>
-            <h2 className="font-serif text-3xl md:text-4xl leading-[1.15] mb-6">The Cyber Consultant LLC</h2>
-            <p className="text-muted-foreground text-[17px] leading-[1.7] mb-4">
-              Founded in 2020 by Lakeidra Smith, The Cyber Consultant is a Birmingham-based cybersecurity education and strategic advisory firm serving organizations across the Southeast and beyond.
+      {/* Section 5 — The Company (dark background) */}
+      <section className="bg-navy text-cream">
+        <div className="container-page py-24 md:py-32 max-w-[680px] md:max-w-none mx-auto">
+          <AnimatedSection className="max-w-[680px]">
+            <p className="eyebrow mb-4">The Cyber Consultant LLC</p>
+            <h2 className="font-serif text-[32px] md:text-[48px] leading-[1.15] mb-6">
+              Built to close the gap between security expertise and the humans who need it.
+            </h2>
+            <p className="text-cream/80 text-[17px] leading-[1.7] mb-4">
+              Founded in 2020 by Lakeidra Smith, The Cyber Consultant is a Birmingham-based cybersecurity education and strategic advisory firm. We work with corporate teams, conference organizers, L&D leaders, and executives who need a partner that combines deep subject matter expertise with the rare ability to make that expertise accessible to any audience.
             </p>
-            <p className="text-muted-foreground text-[17px] leading-[1.7] mb-4">
-              Every engagement is founder-led. Lakeidra personally delivers every keynote, every workshop, every advisory session. There is no junior staff. There is no bait-and-switch. When you work with The Cyber Consultant, you work with Lakeidra.
+            <p className="text-cream/80 text-[17px] leading-[1.7] mb-4">
+              Every engagement is founder-led. Lakeidra personally delivers every keynote, every workshop, every advisory session. When you work with The Cyber Consultant, you work with Lakeidra — not a junior associate, not a subcontractor. Her.
             </p>
-            <p className="text-muted-foreground text-[17px] leading-[1.7] mb-12">
-              We partner with workforce development organizations, training providers, corporate teams, and conference organizers who need a partner that combines deep subject matter expertise with the rare ability to make that expertise accessible to any audience.
+            <p className="text-cream/80 text-[17px] leading-[1.7] mb-12">
+              Every session is built on the Cyber Curiosity framework: Pause. Ask. Verify. Not a compliance checklist. A way of thinking.
             </p>
           </AnimatedSection>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -117,8 +123,8 @@ const About = () => {
                 copy: "Dell Cybersecurity Summit · Sloss Tech · Elevate & Empower Tech Event · EdFarm · Correlation One",
               },
               {
-                title: "Clients Served",
-                copy: "1,500+ Companies · Startups · SMBs · Nonprofits · Educational Institutions",
+                title: "Clients & Learners",
+                copy: "5,000+ learners trained · Startups · SMBs · Nonprofits · Educational Institutions",
               },
               {
                 title: "Press",
@@ -126,7 +132,7 @@ const About = () => {
               },
             ].map((card, i) => (
               <AnimatedSection key={card.title} delay={i * 0.1}>
-                <div className="bg-navy text-cream rounded-lg p-8 text-center h-full">
+                <div className="bg-navy-light text-cream rounded-lg p-8 text-center h-full border border-gold/20">
                   <p className="eyebrow mb-3">{card.title}</p>
                   <p className="text-cream/70 text-sm leading-relaxed">{card.copy}</p>
                 </div>
@@ -136,15 +142,15 @@ const About = () => {
         </div>
       </section>
 
-      {/* Section 6 — FACE Tomorrow™ Framework */}
-      <section className="bg-navy text-cream">
+      {/* Section 6 — FACE Tomorrow™ Framework (burgundy background) */}
+      <section className="bg-burgundy text-cream">
         <div className="container-page py-24 md:py-32">
           <AnimatedSection className="text-center mb-16 max-w-[800px] mx-auto">
             <p className="eyebrow mb-4">The Leadership Framework</p>
-            <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl leading-[1.15] mb-4">
+            <h2 className="font-serif text-[32px] md:text-[48px] lg:text-[56px] leading-[1.15] mb-4">
               Leaders who refuse to be blindsided use a different framework.
             </h2>
-            <p className="text-cream/70 text-lg">
+            <p className="text-cream/80 text-lg">
               FACE Tomorrow™ is the organizational framework Lakeidra brings to executive workshops and board briefings. It is not a checklist. It is a way of leading.
             </p>
           </AnimatedSection>
@@ -172,30 +178,69 @@ const About = () => {
               },
             ].map((pillar, i) => (
               <AnimatedSection key={pillar.letter} delay={i * 0.1}>
-                <div className="bg-navy-light border border-burgundy/30 rounded-lg p-8 h-full">
+                <div className="bg-cream/10 border border-cream/20 rounded-lg p-8 h-full">
                   <span className="font-serif text-4xl text-gold">{pillar.letter}</span>
-                  <h3 className="font-serif text-xl mb-3 mt-2">{pillar.title}</h3>
-                  <p className="text-cream/70 text-sm leading-relaxed">{pillar.desc}</p>
+                  <h3 className="font-semibold text-xl mb-3 mt-2">{pillar.title}</h3>
+                  <p className="text-cream/80 text-sm leading-relaxed">{pillar.desc}</p>
                 </div>
               </AnimatedSection>
             ))}
           </div>
           <AnimatedSection delay={0.5}>
-            <p className="text-center text-cream/40 text-xs italic mt-10 font-sans">
+            <p className="text-center text-cream/50 text-xs italic mt-10 font-sans">
               FACE Tomorrow™ is a registered framework of The Cyber Consultant LLC.
             </p>
           </AnimatedSection>
         </div>
       </section>
 
-      {/* Section 7 — CTA */}
-      <section className="bg-navy text-cream border-t border-navy-light">
+      {/* Section 7 — Book Callout (burgundy background) */}
+      <section className="bg-burgundy text-cream border-t border-cream/10">
+        <div className="container-page py-24 md:py-32">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <AnimatedSection className="flex justify-center">
+              <img
+                src={bookCover}
+                alt="Cyber Curiosity book by Lakeidra Smith"
+                className="max-w-[280px] md:max-w-[320px] w-full drop-shadow-2xl"
+              />
+            </AnimatedSection>
+            <AnimatedSection delay={0.15}>
+              <p className="eyebrow mb-4">The Book</p>
+              <h2 className="font-serif text-[32px] md:text-[48px] leading-[1.15] mb-6">
+                Start here. Everything else builds from this.
+              </h2>
+              <p className="text-cream/90 text-[17px] leading-[1.7] mb-4">
+                <em>Cyber Curiosity: A Beginner's Guide to Cybersecurity</em> is the book Lakeidra wrote for everyone who ever felt like cybersecurity was someone else's job. It introduces the Cyber Curiosity Mindset — <strong className="text-gold">Pause. Ask. Verify.</strong> — the same framework that sits at the foundation of every program, workshop, and keynote The Cyber Consultant delivers.
+              </p>
+              <p className="text-cream/90 text-[17px] leading-[1.7] mb-8">
+                Available individually or in bulk for workshops and conference use.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Button variant="burgundy" size="lg" asChild>
+                  <a href="https://www.amazon.com/Cyber-Curiosity-Beginners-Cybersecurity-Yourself/dp/1636768695/" target="_blank" rel="noopener noreferrer">
+                    Get the Book <ArrowRight size={16} />
+                  </a>
+                </Button>
+                <Button variant="hero-ghost" size="lg" asChild>
+                  <Link to="/contact">Inquire About Bulk Orders</Link>
+                </Button>
+              </div>
+            </AnimatedSection>
+          </div>
+        </div>
+      </section>
+
+      {/* Section 8 — CTA */}
+      <section className="bg-navy text-cream">
         <div className="container-page py-24 md:py-32 text-center">
           <AnimatedSection>
-            <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl mb-6">Let's build something together.</h2>
+            <h2 className="font-serif text-[32px] md:text-[48px] lg:text-[56px] leading-[1.15] mb-6">Let's build something together.</h2>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button variant="hero-primary" size="lg" asChild>
-                <Link to="/contact">Get in Touch <ArrowRight size={16} /></Link>
+                <a href="https://calendly.com/podcast-lakeidra/discovery-call" target="_blank" rel="noopener noreferrer">
+                  Schedule a Discovery Call <ArrowRight size={16} />
+                </a>
               </Button>
               <Button variant="hero-ghost" size="lg" asChild>
                 <Link to="/services">See Our Services</Link>

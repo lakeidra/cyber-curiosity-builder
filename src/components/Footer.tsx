@@ -78,7 +78,7 @@ const Footer = () => {
           </div>
         </div>
         <div className="border-t border-cream/10 pt-6 text-center text-xs text-cream/40">
-          © {new Date().getFullYear()} The Cyber Consultant LLC. All rights reserved.
+          © 2025 The Cyber Consultant LLC. All rights reserved.
         </div>
       </div>
     </footer>
