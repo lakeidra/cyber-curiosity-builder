@@ -8,8 +8,9 @@ import About from "./pages/About";
 import Services from "./pages/Services";
 import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
-import BoardReadiness from "./pages/BoardReadiness";
-import RiskExposureCheck from "./pages/RiskExposureCheck";
+// Resources pages (not yet production-ready)
+// import BoardReadiness from "./pages/BoardReadiness";
+// import RiskExposureCheck from "./pages/RiskExposureCheck";
 
 const queryClient = new QueryClient();
 
