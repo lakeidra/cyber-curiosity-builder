@@ -5,7 +5,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-all duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
   {
     variants: {
       variant: {
@@ -15,11 +15,13 @@ const buttonVariants = cva(
         secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
-        gold: "bg-gold text-accent-foreground font-semibold hover:bg-gold-dark shadow-lg hover:shadow-xl",
-        "gold-outline": "border-2 border-gold text-gold font-semibold hover:bg-gold hover:text-accent-foreground",
-        "hero-primary": "bg-gold text-accent-foreground font-semibold hover:bg-gold-dark shadow-lg hover:shadow-xl text-base px-8 py-3",
-        "hero-secondary": "border-2 border-cream text-cream font-semibold hover:bg-cream hover:text-navy text-base px-8 py-3",
-        "nav-cta": "bg-gold text-accent-foreground font-semibold hover:bg-gold-dark shadow-md",
+        gold: "bg-gold text-accent-foreground font-semibold hover:bg-gold-dark shadow-lg hover:shadow-xl hover:scale-[1.02]",
+        "gold-outline": "border-2 border-gold text-gold font-semibold hover:bg-gold hover:text-accent-foreground hover:scale-[1.02]",
+        "hero-primary": "bg-gold text-accent-foreground font-semibold hover:bg-gold-dark shadow-lg hover:shadow-xl hover:scale-[1.02] text-base px-8 py-3",
+        "hero-secondary": "border-2 border-gold text-gold font-semibold hover:bg-gold hover:text-accent-foreground hover:scale-[1.02] text-base px-8 py-3",
+        "hero-ghost": "border-2 border-cream text-cream font-semibold hover:bg-cream hover:text-navy hover:scale-[1.02] text-base px-8 py-3",
+        "nav-cta": "bg-gold text-accent-foreground font-semibold hover:bg-gold-dark shadow-md hover:scale-[1.02]",
+        "burgundy": "bg-cream text-burgundy font-semibold hover:bg-cream/90 hover:scale-[1.02] text-base px-8 py-3",
       },
       size: {
         default: "h-10 px-4 py-2",
