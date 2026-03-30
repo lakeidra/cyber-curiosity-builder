@@ -74,7 +74,7 @@ const Index = () => {
         <div className="container-page py-24 md:py-32 lg:py-40 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           <AnimatedSection>
             <p className="eyebrow mb-6">The Cyber Consultant</p>
-            <h1 className="font-serif text-4xl md:text-5xl lg:text-[3.5rem] leading-[1.1] mb-6">
+            <h1 className="font-serif text-[40px] md:text-5xl lg:text-[4.5rem] leading-[1.1] mb-6">
               The boardroom is the new frontline.
               <br />
               <em className="text-gold">Is your leadership ready?</em>
@@ -141,7 +141,7 @@ const Index = () => {
         <div className="container-page py-24 md:py-32">
           <AnimatedSection>
             <p className="eyebrow text-center mb-6">What Makes This Different</p>
-            <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl text-center leading-[1.15] mb-12 max-w-[800px] mx-auto">
+            <h2 className="font-serif text-[32px] md:text-[48px] lg:text-[56px] text-center leading-[1.15] mb-12 max-w-[800px] mx-auto">
               Most cyber firms talk to your IT team.
               <br />
               We talk to the people who lead it.
@@ -172,12 +172,12 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Section 4 — Credibility Anchor / Book */}
-      <section className="bg-navy text-cream">
+      {/* Section 4 — Credibility Anchor / Book (burgundy background) */}
+      <section className="bg-burgundy text-cream">
         <div className="container-page py-24 md:py-32">
           <AnimatedSection>
             <p className="eyebrow mb-6">Bestselling Author</p>
-            <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl mb-12">The book that started a movement.</h2>
+            <h2 className="font-serif text-[32px] md:text-[48px] lg:text-[56px] leading-[1.15] mb-12">The book that started a movement.</h2>
           </AnimatedSection>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <AnimatedSection delay={0.1} className="flex justify-center">
@@ -188,10 +188,10 @@ const Index = () => {
               />
             </AnimatedSection>
             <AnimatedSection delay={0.2}>
-              <p className="text-cream/80 text-[17px] leading-[1.7] mb-6">
+              <p className="text-cream/90 text-[17px] leading-[1.7] mb-6">
                 <em>Cyber Curiosity: A Beginner's Guide to Cybersecurity</em> was written for every person who ever felt like cybersecurity was someone else's job. It introduces the framework — <strong className="text-gold">Pause. Ask. Verify.</strong> — that sits at the foundation of everything The Cyber Consultant teaches.
               </p>
-              <p className="text-cream/80 text-[17px] leading-[1.7] mb-8">
+              <p className="text-cream/90 text-[17px] leading-[1.7] mb-8">
                 It is not a technical manual. It is a mindset shift. Written in the language your employees actually speak.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
@@ -225,7 +225,7 @@ const Index = () => {
             </AnimatedSection>
             <AnimatedSection delay={0.15}>
               <p className="eyebrow mb-4">Your Strategic Partner</p>
-              <h2 className="font-serif text-3xl md:text-4xl mb-6">She's been in the machine since childhood.</h2>
+              <h2 className="font-serif text-[32px] md:text-[48px] leading-[1.15] mb-6">She's been in the machine since childhood.</h2>
               <p className="text-muted-foreground text-[17px] leading-[1.7] mb-4">
                 Before Lakeidra Smith was a keynote speaker, she was a nine-year-old who broke her Christmas laptop out of curiosity — and fixed it. Before she was a bestselling author, she was a fifteen-year-old charging neighbors for virus removal and website builds.
               </p>
@@ -246,7 +246,7 @@ const Index = () => {
         <div className="container-page py-24 md:py-32">
           <AnimatedSection className="text-center mb-16">
             <p className="eyebrow mb-4">The Framework</p>
-            <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl mb-4 max-w-[800px] mx-auto">
+            <h2 className="font-serif text-[32px] md:text-[48px] lg:text-[56px] leading-[1.15] mb-4 max-w-[800px] mx-auto">
               Simple enough to remember. Powerful enough to prevent a $25 million fraud.
             </h2>
             <p className="text-cream/70 text-lg max-w-[680px] mx-auto">
@@ -292,7 +292,7 @@ const Index = () => {
         <div className="container-page py-24 md:py-32">
           <AnimatedSection className="text-center mb-16">
             <p className="eyebrow mb-4">How We Work Together</p>
-            <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl">From the keynote to the boardroom.</h2>
+            <h2 className="font-serif text-[32px] md:text-[48px] lg:text-[56px] leading-[1.15]">From the keynote to the boardroom.</h2>
           </AnimatedSection>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {services.map((svc, i) => (
@@ -333,11 +333,11 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Section 9 — The Curiosity Brief CTA */}
+      {/* Section 9 — The Curiosity Brief CTA (burgundy) */}
       <section id="curiosity-brief" className="bg-burgundy text-cream">
         <div className="container-page py-24 md:py-32 text-center max-w-[680px] mx-auto">
           <AnimatedSection>
-            <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl mb-6">
+            <h2 className="font-serif text-[32px] md:text-[48px] lg:text-[56px] leading-[1.15] mb-6">
               Stay ahead of the threat — and the conversation.
             </h2>
             <p className="text-cream/80 text-lg leading-relaxed mb-10">
@@ -354,7 +354,7 @@ const Index = () => {
       <section className="bg-navy text-cream">
         <div className="container-page py-24 md:py-32 text-center">
           <AnimatedSection>
-            <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl mb-4">Ready to build something that lasts?</h2>
+            <h2 className="font-serif text-[32px] md:text-[48px] lg:text-[56px] leading-[1.15] mb-4">Ready to build something that lasts?</h2>
             <p className="text-cream/70 text-lg mb-10">Every engagement begins with a conversation.</p>
             <Button variant="hero-primary" size="lg" asChild>
               <a href="https://calendly.com/podcast-lakeidra/discovery-call" target="_blank" rel="noopener noreferrer">
