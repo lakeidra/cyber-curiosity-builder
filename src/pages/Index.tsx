@@ -66,12 +66,12 @@ const Index = () => {
           <AnimatedSection>
             <p className="eyebrow mb-6">Helping Humans Understand Machines</p>
             <h1 className="font-serif text-[40px] md:text-5xl lg:text-[4.5rem] leading-[1.1] mb-6">
-              Technology moves fast.
+              You're accountable for the technology.
               <br />
-              <em className="text-gold">Understanding has to move faster.</em>
+              <em className="text-gold">The results depend on your people.</em>
             </h1>
             <p className="text-cream/80 text-lg leading-relaxed mb-10 max-w-[640px] mx-auto">
-              The Cyber Consultant closes the gap between the people who build technology and the people who lead with it. AI readiness, strategic advisory, workforce training, and secure modernization for enterprises and government agencies.
+              Most AI and modernization investments miss their targets, and it's almost never the platform. It's the gap between what you deployed and what your organization is ready to do with it. TCC closes that gap: we diagnose it with nsite, advise you through it, train your workforce past it, and put skilled hands on delivery when you need them.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button variant="hero-primary" size="lg" asChild>
@@ -94,10 +94,10 @@ const Index = () => {
               <AnimatedSection>
                 <p className="eyebrow mb-4 text-gold-dark">For Enterprise Leaders</p>
                 <h2 className="font-serif text-[30px] md:text-[38px] leading-[1.15] mb-5">
-                  Your AI investment is only as good as your people's readiness to use it.
+                  Start with evidence, not another initiative.
                 </h2>
                 <p className="text-muted-foreground text-[17px] leading-[1.7] mb-8">
-                  For CIOs, CTOs, and executive teams at mid-market organizations. Diagnose adoption gaps with nsite, align leadership with the FACE Tomorrow methodology, and build a workforce that outlearns change.
+                  For CIOs, CTOs, and executive teams at mid-market organizations. Before you spend another dollar on tools or training, measure where your workforce actually stands. nsite shows you the gap; our advisory and training close it.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-3">
                   <Button variant="hero-primary" asChild>
@@ -122,10 +122,10 @@ const Index = () => {
               <AnimatedSection delay={0.1}>
                 <p className="eyebrow mb-4">For Government</p>
                 <h2 className="font-serif text-[30px] md:text-[38px] leading-[1.15] mb-5">
-                  Cleared personnel. Contract-scale delivery. Proprietary AI readiness capability.
+                  The mandate requires skills your agency doesn't have in-house. Ours does.
                 </h2>
                 <p className="text-cream/70 text-[17px] leading-[1.7] mb-8">
-                  For federal, state, and local agencies. WOSB and EDWOSB certified, performing as prime and subcontractor across IT modernization, cybersecurity, workforce training, and AI adoption readiness in direct support of OMB M-25-21.
+                  Federal AI and modernization mandates don't come with the workforce to execute them. TCC delivers the capability gap end to end: cleared, credentialed personnel for implementation, readiness measurement that supports M-25-21 documentation, and training that builds the skills your team keeps after we leave. WOSB and EDWOSB certified, performing as prime and subcontractor.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-3">
                   <Button variant="hero-primary" asChild>
