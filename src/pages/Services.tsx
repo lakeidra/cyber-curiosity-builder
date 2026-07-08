@@ -11,6 +11,7 @@ const lines = [
     audience: "Enterprise & Government",
     desc: "The nsite diagnostic, adoption strategy, AI agent and process automation, and M-25-21 readiness documentation. For organizations that deployed AI and are still waiting on the ROI.",
     items: ["nsite workforce diagnostic & Translation Gap Score", "AI adoption strategy & change management", "Copilot, Power Automate & Power Platform automation", "OMB M-25-21 readiness documentation support"],
+    nsiteLink: "/services/nsite",
   },
   {
     title: "Advisory & Foresight",
@@ -66,7 +67,7 @@ const Services = () => {
                     <p className="eyebrow mb-2 text-gold-dark">{line.audience}</p>
                     <h2 className="font-serif text-[26px] md:text-[32px] leading-[1.15] mb-3">{line.title}</h2>
                     <p className="text-muted-foreground text-[16px] leading-[1.7] mb-5 max-w-[620px]">{line.desc}</p>
-                    <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2 mb-2">
+                    <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2 mb-3">
                       {line.items.map((item) => (
                         <li key={item} className="text-sm text-foreground/80 flex items-start gap-2">
                           <span className="text-gold-dark mt-[2px]">•</span>
@@ -74,6 +75,14 @@ const Services = () => {
                         </li>
                       ))}
                     </ul>
+                    {"nsiteLink" in line && line.nsiteLink && (
+                      <Link
+                        to={line.nsiteLink}
+                        className="inline-flex items-center gap-1 text-sm font-semibold text-gold-dark hover:underline"
+                      >
+                        Learn more about nsite <ArrowRight size={13} />
+                      </Link>
+                    )}
                   </div>
                   <Button variant="hero-primary" asChild className="lg:self-center">
                     <Link to={line.link}>

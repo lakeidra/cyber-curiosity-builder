@@ -6,7 +6,7 @@ import { ArrowRight } from "lucide-react";
 
 const stats = [
   { number: "5,000+", label: "Learners trained, including DoD cohorts" },
-  { number: "22 → 79", label: "NPS transformation on a national training program" },
+  { number: "27 → 92", label: "NPS transformation on a national training program" },
   { number: "WOSB", label: "Certified Woman-Owned Small Business (and EDWOSB)" },
 ];
 
@@ -191,7 +191,7 @@ const Index = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Button variant="hero-primary" asChild>
-                <Link to="/services/ai-readiness">Learn About nsite</Link>
+                <Link to="/services/nsite">Learn About nsite</Link>
               </Button>
               <Button variant="hero-ghost" asChild>
                 <Link to="/ai-readiness-check">Take the 2-Minute Check</Link>

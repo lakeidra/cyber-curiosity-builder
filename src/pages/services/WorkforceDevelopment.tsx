@@ -6,7 +6,7 @@ import { ArrowRight } from "lucide-react";
 
 const proof = [
   { number: "5,000+", label: "Learners trained through programs we designed and delivered" },
-  { number: "22 → 79", label: "NPS transformation on a national cybersecurity training program" },
+  { number: "27 → 92", label: "NPS transformation on a national cybersecurity training program" },
   { number: "DoD", label: "Curriculum designed and delivered for Department of Defense cohorts" },
 ];
 

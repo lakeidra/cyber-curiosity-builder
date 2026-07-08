@@ -32,7 +32,7 @@ const capabilities = [
   },
   {
     title: "AI Adoption, Automation & Workforce Enablement",
-    link: "/services/ai-readiness",
+    link: "/services/nsite",
     items: ["AI agent & process-automation development (Copilot, Power Automate, Power Platform)", "AI adoption readiness assessment supporting M-25-21 documentation requirements", "AI literacy & workforce upskilling curriculum, instructor-led and virtual, at scale"],
   },
   {
@@ -178,7 +178,7 @@ const Government = () => {
               <div className="border border-gold/30 rounded-lg p-8 bg-navy-light">
                 <h3 className="font-serif text-[22px] mb-2 text-gold">Correlation One</h3>
                 <p className="text-cream/70 text-[15px] leading-[1.7]">
-                  Designed and delivered cybersecurity training at national scale, including Department of Defense cohorts. More than 5,000 learners trained, with program NPS improved from 22 to 79 and certification pass rates lifted from below 20% to above 50%.
+                  Designed and delivered cybersecurity training at national scale, including Department of Defense cohorts. More than 5,000 learners trained, with program NPS improved from 27 to 92 and certification pass rates lifted from below 20% to above 50%.
                 </p>
               </div>
             </AnimatedSection>
