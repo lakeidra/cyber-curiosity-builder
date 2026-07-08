@@ -3,22 +3,38 @@ import { Button } from "@/components/ui/button";
 import Layout from "@/components/Layout";
 import AnimatedSection from "@/components/AnimatedSection";
 import { ArrowRight } from "lucide-react";
-import lakeidraHero from "@/assets/lakeidra-smith.jpg";
-import lakeidraAbout from "@/assets/lakeidra-about.jpg";
-import bookCover from "@/assets/cyber-curiosity-book.png";
-
-const asSeenIn = [
-  "Dell Cybersecurity Summit",
-  "Sloss Tech",
-  "Blossoming Technologist",
-  "All In Podcast",
-  "Tennessee Highlighter",
-];
 
 const stats = [
-  { number: "5,000+", label: "Learners Trained" },
-  { number: "92", label: "NPS Score (up from 27)" },
-  { number: "50%+", label: "Certification Pass Rate (up from sub-20%)" },
+  { number: "5,000+", label: "Learners trained, including DoD cohorts" },
+  { number: "22 → 79", label: "NPS transformation on a national training program" },
+  { number: "WOSB", label: "Certified Woman-Owned Small Business (and EDWOSB)" },
+];
+
+const serviceLines = [
+  {
+    title: "AI Readiness & Adoption",
+    desc: "Most AI rollouts stall on people, not technology. Our proprietary nsite diagnostic measures where your workforce actually stands, surfaces the gap between leadership perception and employee reality, and prescribes what to fix first.",
+    link: "/services/ai-readiness",
+    cta: "Explore AI Readiness",
+  },
+  {
+    title: "Advisory & Foresight",
+    desc: "Strategic guidance for leaders navigating decisions their technical teams can explain but not translate. Built on the FACE Tomorrow framework: Foresight, Alignment, Curiosity, Execution.",
+    link: "/services/advisory",
+    cta: "Explore Advisory",
+  },
+  {
+    title: "Workforce Development & Training",
+    desc: "Curriculum designed and delivered at national scale. We have built training programs for Amazon and the U.S. Department of Defense, and we bring that rigor to yours.",
+    link: "/services/workforce-development",
+    cta: "Explore Training",
+  },
+  {
+    title: "Cybersecurity & IT Modernization",
+    desc: "Zero Trust architecture, NIST-aligned assessment support, cloud migration, and cleared personnel for government and enterprise IT organizations that need delivery at contract scale.",
+    link: "/services/cybersecurity-modernization",
+    cta: "Explore Cyber & IT",
+  },
 ];
 
 const testimonials = [
@@ -28,7 +44,7 @@ const testimonials = [
     title: "Corporate L&D Director",
   },
   {
-    quote: "She doesn't just inform — she transforms how people think about their role in security. Our leadership team finally understands that cybersecurity is a business function, not just an IT one.",
+    quote: "She doesn't just inform. She transforms how people think about their role in security. Our leadership team finally understands that cybersecurity is a business function, not just an IT one.",
     name: "Executive Briefing Client",
     title: "CEO, Mid-Market Company",
   },
@@ -39,328 +55,229 @@ const testimonials = [
   },
 ];
 
-const services = [
-  {
-    title: "Keynote & Speaking",
-    desc: "For conferences, corporate events, and leadership summits. Lakeidra brings a rare combination to the stage: deep technical roots and the storytelling instinct of a published author.",
-    link: "/services",
-    cta: "See Speaking →",
-  },
-  {
-    title: "Workshops & Training",
-    desc: "Your team doesn't need another compliance training. They need a repeatable instinct. Half-day and full-day sessions built around real scenarios, not slides full of statistics.",
-    link: "/services#workshops",
-    cta: "See Workshops →",
-  },
-  {
-    title: "Advisory Services",
-    desc: "For leaders who want to keep thinking, not just react. Monthly strategic guidance on human risk, AI governance, and security culture — without adding headcount.",
-    link: "/services#advisory",
-    cta: "See Advisory →",
-  },
-  {
-    title: "Curriculum Development",
-    desc: "For organizations that want to build something that lasts. Lakeidra has designed curriculum for Amazon and the U.S. Department of Defense. She brings that rigor to your program.",
-    link: "/services#curriculum",
-    cta: "See Curriculum →",
-  },
-];
-
 const Index = () => {
   return (
     <Layout>
-      {/* Section 1 — Hero */}
+      {/* Section 1 — Hero: company thesis */}
       <section className="bg-navy text-cream relative overflow-hidden">
-        <div className="container-page py-24 md:py-32 lg:py-40 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+        {/* subtle gold seam motif */}
+        <div className="absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-gold/30 to-transparent hidden lg:block" aria-hidden="true" />
+        <div className="container-page py-24 md:py-32 lg:py-40 text-center max-w-[900px] mx-auto relative">
           <AnimatedSection>
-            <p className="eyebrow mb-6">The Cyber Consultant</p>
+            <p className="eyebrow mb-6">Helping Humans Understand Machines</p>
             <h1 className="font-serif text-[40px] md:text-5xl lg:text-[4.5rem] leading-[1.1] mb-6">
-              The boardroom is the new frontline.
+              Technology moves fast.
               <br />
-              <em className="text-gold">Is your leadership ready?</em>
+              <em className="text-gold">Understanding has to move faster.</em>
             </h1>
-            <p className="text-cream/80 text-lg leading-relaxed mb-10 max-w-[560px]">
-              Most cybersecurity training teaches people what to fear. Lakeidra Smith teaches them what to do — and why it matters before the incident, not after.
+            <p className="text-cream/80 text-lg leading-relaxed mb-10 max-w-[640px] mx-auto">
+              The Cyber Consultant closes the gap between the people who build technology and the people who lead with it. AI readiness, strategic advisory, workforce training, and secure modernization for enterprises and government agencies.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button variant="hero-primary" size="lg" asChild>
+                <Link to="/ai-readiness-check">Take the Free AI Readiness Check</Link>
+              </Button>
+              <Button variant="hero-ghost" size="lg" asChild>
+                <Link to="/services">Explore Our Services</Link>
+              </Button>
+            </div>
+          </AnimatedSection>
+        </div>
+      </section>
+
+      {/* Section 2 — Two paths, one firm (signature element) */}
+      <section className="relative">
+        <div className="grid grid-cols-1 lg:grid-cols-2">
+          {/* Enterprise path */}
+          <div className="bg-cream text-foreground relative">
+            <div className="px-6 md:px-12 lg:px-16 py-20 md:py-24 lg:py-28 max-w-[640px] lg:ml-auto">
+              <AnimatedSection>
+                <p className="eyebrow mb-4 text-gold-dark">For Enterprise Leaders</p>
+                <h2 className="font-serif text-[30px] md:text-[38px] leading-[1.15] mb-5">
+                  Your AI investment is only as good as your people's readiness to use it.
+                </h2>
+                <p className="text-muted-foreground text-[17px] leading-[1.7] mb-8">
+                  For CIOs, CTOs, and executive teams at mid-market organizations. Diagnose adoption gaps with nsite, align leadership with the FACE Tomorrow methodology, and build a workforce that outlearns change.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <Button variant="hero-primary" asChild>
+                    <Link to="/services/ai-readiness">
+                      Start With a Diagnostic <ArrowRight className="ml-1" size={16} />
+                    </Link>
+                  </Button>
+                  <Button variant="outline" className="border-navy/30 text-foreground hover:bg-navy hover:text-cream" asChild>
+                    <Link to="/services/advisory">See Advisory Programs</Link>
+                  </Button>
+                </div>
+              </AnimatedSection>
+            </div>
+          </div>
+
+          {/* Gold seam on large screens */}
+          <div className="absolute left-1/2 top-0 bottom-0 w-[2px] bg-gold hidden lg:block z-10" aria-hidden="true" />
+
+          {/* Government path */}
+          <div className="bg-navy text-cream relative">
+            <div className="px-6 md:px-12 lg:px-16 py-20 md:py-24 lg:py-28 max-w-[640px] lg:mr-auto">
+              <AnimatedSection delay={0.1}>
+                <p className="eyebrow mb-4">For Government</p>
+                <h2 className="font-serif text-[30px] md:text-[38px] leading-[1.15] mb-5">
+                  Cleared personnel. Contract-scale delivery. Proprietary AI readiness capability.
+                </h2>
+                <p className="text-cream/70 text-[17px] leading-[1.7] mb-8">
+                  For federal, state, and local agencies. WOSB and EDWOSB certified, performing as prime and subcontractor across IT modernization, cybersecurity, workforce training, and AI adoption readiness in direct support of OMB M-25-21.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <Button variant="hero-primary" asChild>
+                    <Link to="/government">
+                      View Our Capabilities <ArrowRight className="ml-1" size={16} />
+                    </Link>
+                  </Button>
+                  <Button variant="hero-ghost" size="default" asChild>
+                    <a href="/TCC-Capability-Statement.pdf" target="_blank" rel="noopener noreferrer">
+                      Download Capability Statement
+                    </a>
+                  </Button>
+                </div>
+              </AnimatedSection>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Section 3 — Service lines */}
+      <section className="bg-cream">
+        <div className="container-page py-24 md:py-32">
+          <AnimatedSection>
+            <p className="eyebrow text-center mb-4 text-gold-dark">What We Do</p>
+            <h2 className="font-serif text-[32px] md:text-[48px] leading-[1.15] text-center mb-14 max-w-[760px] mx-auto">
+              Four service lines. One mission: make technology make sense.
+            </h2>
+          </AnimatedSection>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {serviceLines.map((s, i) => (
+              <AnimatedSection key={s.title} delay={i * 0.08}>
+                <Link
+                  to={s.link}
+                  className="group block bg-background rounded-lg p-8 h-full border border-gold/20 hover:border-gold transition-colors"
+                >
+                  <h3 className="font-serif text-[24px] md:text-[26px] mb-3 group-hover:text-gold-dark transition-colors">
+                    {s.title}
+                  </h3>
+                  <p className="text-muted-foreground text-[16px] leading-[1.7] mb-5">{s.desc}</p>
+                  <span className="text-sm font-semibold text-gold-dark inline-flex items-center gap-1">
+                    {s.cta} <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
+                  </span>
+                </Link>
+              </AnimatedSection>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Section 4 — nsite spotlight */}
+      <section className="bg-navy text-cream">
+        <div className="container-page py-24 md:py-32 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <AnimatedSection>
+            <p className="eyebrow mb-4">Proprietary Diagnostic</p>
+            <h2 className="font-serif text-[32px] md:text-[44px] leading-[1.15] mb-6">
+              nsite measures what your AI dashboards can't: <em className="text-gold">your people.</em>
+            </h2>
+            <p className="text-cream/70 text-[17px] leading-[1.7] mb-4">
+              Three out of four executives think their AI rollout is going well. Fewer than half of their employees agree. That distance has a name: the Translation Gap. nsite is the diagnostic that measures it.
+            </p>
+            <p className="text-cream/70 text-[17px] leading-[1.7] mb-8">
+              A research-grounded assessment across AI knowledge, mindset, and organizational readiness that tells you exactly why adoption is stalling and what intervention actually fixes it.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
+              <Button variant="hero-primary" asChild>
+                <Link to="/services/ai-readiness">Learn About nsite</Link>
+              </Button>
+              <Button variant="hero-ghost" asChild>
+                <Link to="/ai-readiness-check">Take the 2-Minute Check</Link>
+              </Button>
+            </div>
+          </AnimatedSection>
+          <AnimatedSection delay={0.15}>
+            <div className="border border-gold/30 rounded-lg p-8 md:p-10 bg-navy-light">
+              <p className="eyebrow mb-6 text-gold">The Translation Gap, in numbers</p>
+              <div className="space-y-6">
+                <div className="flex items-baseline gap-4 border-b border-cream/10 pb-5">
+                  <span className="font-serif text-[40px] text-gold leading-none">87%</span>
+                  <p className="text-cream/70 text-sm leading-snug">of executives use AI at work, versus only 27% of employees</p>
+                </div>
+                <div className="flex items-baseline gap-4 border-b border-cream/10 pb-5">
+                  <span className="font-serif text-[40px] text-gold leading-none">70%+</span>
+                  <p className="text-cream/70 text-sm leading-snug">of AI deployments fail to meet their ROI targets, and it's almost never the technology</p>
+                </div>
+                <div className="flex items-baseline gap-4">
+                  <span className="font-serif text-[40px] text-gold leading-none">3 in 4</span>
+                  <p className="text-cream/70 text-sm leading-snug">C-suite leaders think the rollout is going well. Fewer than half of employees agree.</p>
+                </div>
+              </div>
+            </div>
+          </AnimatedSection>
+        </div>
+      </section>
+
+      {/* Section 5 — Proof */}
+      <section className="bg-cream border-y border-gold/20">
+        <div className="container-page py-16 md:py-20">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 text-center">
+            {stats.map((s, i) => (
+              <AnimatedSection key={s.label} delay={i * 0.1}>
+                <p className="font-serif text-[44px] md:text-[52px] text-gold-dark leading-none mb-3">{s.number}</p>
+                <p className="text-muted-foreground text-sm max-w-[260px] mx-auto">{s.label}</p>
+              </AnimatedSection>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Section 6 — Testimonials */}
+      <section className="bg-background">
+        <div className="container-page py-24 md:py-32">
+          <AnimatedSection>
+            <h2 className="font-serif text-[32px] md:text-[44px] leading-[1.15] text-center mb-14">
+              What clients say when the jargon clears.
+            </h2>
+          </AnimatedSection>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {testimonials.map((t, i) => (
+              <AnimatedSection key={t.title} delay={i * 0.1}>
+                <div className="bg-cream rounded-lg p-8 h-full border border-gold/20 flex flex-col">
+                  <p className="text-foreground/80 text-[15px] leading-[1.7] mb-6 flex-1">"{t.quote}"</p>
+                  <div>
+                    <p className="font-semibold text-sm">{t.name}</p>
+                    <p className="text-muted-foreground text-xs">{t.title}</p>
+                  </div>
+                </div>
+              </AnimatedSection>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Section 7 — Final CTA */}
+      <section className="bg-navy text-cream">
+        <div className="container-page py-24 md:py-32 text-center max-w-[720px] mx-auto">
+          <AnimatedSection>
+            <h2 className="font-serif text-[32px] md:text-[48px] leading-[1.15] mb-5">
+              Ready to close your translation gap?
+            </h2>
+            <p className="text-cream/70 text-lg leading-relaxed mb-10">
+              Whether you're leading an enterprise AI rollout or delivering on a government mission, the first step is a conversation.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button variant="hero-primary" size="lg" asChild>
                 <a href="https://calendly.com/podcast-lakeidra/discovery-call" target="_blank" rel="noopener noreferrer">
                   Schedule a Discovery Call
                 </a>
               </Button>
               <Button variant="hero-ghost" size="lg" asChild>
-                <a href="#curiosity-brief">Read The Curiosity Brief</a>
+                <Link to="/government">Government Buyers Start Here</Link>
               </Button>
             </div>
-          </AnimatedSection>
-          <AnimatedSection delay={0.2} className="flex justify-center md:justify-end">
-            <div className="relative">
-              <img
-                src={lakeidraHero}
-                alt="Lakeidra Smith, Founder of The Cyber Consultant"
-                className="rounded-lg shadow-2xl max-w-[320px] md:max-w-[380px] w-full object-cover aspect-[3/4]"
-                style={{ filter: "brightness(0.95) saturate(0.9)" }}
-              />
-              <div className="absolute inset-0 rounded-lg bg-gradient-to-t from-navy/30 to-transparent" />
-            </div>
-          </AnimatedSection>
-        </div>
-      </section>
-
-      {/* Section 2 — As Seen In */}
-      <section className="bg-cream border-b border-gold/20">
-        <div className="container-page py-8">
-          <p className="eyebrow text-center mb-6 text-muted-foreground">As Seen In</p>
-          {/* Desktop: static row */}
-          <div className="hidden md:flex items-center justify-center gap-0">
-            {asSeenIn.map((name, i) => (
-              <span key={name} className="flex items-center">
-                <span className="text-foreground font-medium text-sm tracking-wide">{name}</span>
-                {i < asSeenIn.length - 1 && (
-                  <span className="mx-4 h-4 w-px bg-gold/40 inline-block" />
-                )}
-              </span>
-            ))}
-          </div>
-          {/* Mobile: marquee */}
-          <div className="md:hidden overflow-hidden">
-            <div className="flex animate-marquee whitespace-nowrap">
-              {[...asSeenIn, ...asSeenIn].map((name, i) => (
-                <span key={i} className="flex items-center mx-4">
-                  <span className="text-foreground font-medium text-sm">{name}</span>
-                  <span className="ml-4 h-4 w-px bg-gold/40 inline-block" />
-                </span>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Section 3 — Positioning Statement */}
-      <section className="bg-cream">
-        <div className="container-page py-24 md:py-32">
-          <AnimatedSection>
-            <p className="eyebrow text-center mb-6">What Makes This Different</p>
-            <h2 className="font-serif text-[32px] md:text-[48px] lg:text-[56px] text-center leading-[1.15] mb-12 max-w-[800px] mx-auto">
-              Most cyber firms talk to your IT team.
-              <br />
-              We talk to the people who lead it.
-            </h2>
-          </AnimatedSection>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-[680px] md:max-w-none mx-auto mb-16">
-            <AnimatedSection delay={0.1}>
-              <p className="text-muted-foreground text-[17px] leading-[1.7]">
-                Cybersecurity is not a technology problem. It is a human one. Nineteen out of twenty breaches begin with a person — a click, a trust, a moment of not knowing what to look for. Technology cannot fix that. A different kind of conversation can.
-              </p>
-            </AnimatedSection>
-            <AnimatedSection delay={0.2}>
-              <p className="text-muted-foreground text-[17px] leading-[1.7]">
-                The Cyber Consultant exists at the intersection of security expertise and executive communication. We translate. We train. We build the instincts your organization needs to make better decisions — starting with the humans at the top.
-              </p>
-            </AnimatedSection>
-          </div>
-          <AnimatedSection delay={0.3}>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {stats.map((stat) => (
-                <div key={stat.label} className="bg-navy text-cream rounded-lg p-8 text-center">
-                  <p className="font-serif text-3xl md:text-4xl text-gold mb-2">{stat.number}</p>
-                  <p className="text-cream/70 text-sm">{stat.label}</p>
-                </div>
-              ))}
-            </div>
-          </AnimatedSection>
-        </div>
-      </section>
-
-      {/* Section 4 — Credibility Anchor / Book (burgundy background) */}
-      <section className="bg-burgundy text-cream">
-        <div className="container-page py-24 md:py-32">
-          <AnimatedSection>
-            <p className="eyebrow mb-6">Bestselling Author</p>
-            <h2 className="font-serif text-[32px] md:text-[48px] lg:text-[56px] leading-[1.15] mb-12">The book that started a movement.</h2>
-          </AnimatedSection>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            <AnimatedSection delay={0.1} className="flex justify-center">
-              <img
-                src={bookCover}
-                alt="Cyber Curiosity book by Lakeidra Smith"
-                className="max-w-[280px] md:max-w-[320px] w-full drop-shadow-2xl"
-              />
-            </AnimatedSection>
-            <AnimatedSection delay={0.2}>
-              <p className="text-cream/90 text-[17px] leading-[1.7] mb-6">
-                <em>Cyber Curiosity: A Beginner's Guide to Cybersecurity</em> was written for every person who ever felt like cybersecurity was someone else's job. It introduces the framework — <strong className="text-gold">Pause. Ask. Verify.</strong> — that sits at the foundation of everything The Cyber Consultant teaches.
-              </p>
-              <p className="text-cream/90 text-[17px] leading-[1.7] mb-8">
-                It is not a technical manual. It is a mindset shift. Written in the language your employees actually speak.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <a
-                  href="https://www.amazon.com/Cyber-Curiosity-Beginners-Cybersecurity-Yourself/dp/1636768695/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-gold font-semibold inline-flex items-center gap-2 hover:gap-3 transition-all"
-                >
-                  Get the Book <ArrowRight size={16} />
-                </a>
-                <Button variant="hero-ghost" size="default" asChild>
-                  <Link to="/contact">Inquire About Bulk Orders</Link>
-                </Button>
-              </div>
-            </AnimatedSection>
-          </div>
-        </div>
-      </section>
-
-      {/* Section 5 — Meet Lakeidra */}
-      <section className="bg-cream">
-        <div className="container-page py-24 md:py-32">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            <AnimatedSection>
-              <img
-                src={lakeidraAbout}
-                alt="Lakeidra Smith"
-                className="rounded-lg shadow-xl w-full object-cover aspect-[4/3]"
-              />
-            </AnimatedSection>
-            <AnimatedSection delay={0.15}>
-              <p className="eyebrow mb-4">Your Strategic Partner</p>
-              <h2 className="font-serif text-[32px] md:text-[48px] leading-[1.15] mb-6">She's been in the machine since childhood.</h2>
-              <p className="text-muted-foreground text-[17px] leading-[1.7] mb-4">
-                Before Lakeidra Smith was a keynote speaker, she was a nine-year-old who broke her Christmas laptop out of curiosity — and fixed it. Before she was a bestselling author, she was a fifteen-year-old charging neighbors for virus removal and website builds.
-              </p>
-              <p className="text-muted-foreground text-[17px] leading-[1.7] mb-4">
-                That foundation — built through hands-on experience before she ever set foot in a classroom — is what makes her different. She doesn't translate cybersecurity into human language because she studied communications. She does it because she has lived on both sides of the screen, and she knows exactly where the gap lives.
-              </p>
-              <p className="text-foreground font-medium text-[17px] mb-6">Today, that gap is her life's work.</p>
-              <Button variant="gold-outline" asChild>
-                <Link to="/about">Read Lakeidra's Full Story <ArrowRight size={16} /></Link>
-              </Button>
-            </AnimatedSection>
-          </div>
-        </div>
-      </section>
-
-      {/* Section 6 — The Cyber Curiosity Mindset */}
-      <section className="bg-navy text-cream">
-        <div className="container-page py-24 md:py-32">
-          <AnimatedSection className="text-center mb-16">
-            <p className="eyebrow mb-4">The Framework</p>
-            <h2 className="font-serif text-[32px] md:text-[48px] lg:text-[56px] leading-[1.15] mb-4 max-w-[800px] mx-auto">
-              Simple enough to remember. Powerful enough to prevent a $25 million fraud.
-            </h2>
-            <p className="text-cream/70 text-lg max-w-[680px] mx-auto">
-              Every program, workshop, and keynote The Cyber Consultant delivers is rooted in one framework.
-            </p>
-          </AnimatedSection>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              {
-                title: "PAUSE",
-                copy: "Before you click, transfer, share, or act — stop. One breath interrupts the reflex that attackers depend on.",
-              },
-              {
-                title: "ASK",
-                copy: "What feels off? What can't I verify? Curiosity is not paranoia. It is professionalism.",
-              },
-              {
-                title: "VERIFY",
-                copy: "Through a second channel. Every time. Real urgency can wait two minutes. False urgency cannot.",
-              },
-            ].map((card, i) => (
-              <AnimatedSection key={card.title} delay={i * 0.15}>
-                <div className="bg-navy-light rounded-lg p-8 text-center h-full border border-gold/20">
-                  <div className="w-14 h-14 bg-gold/10 rounded-full flex items-center justify-center mx-auto mb-5">
-                    <span className="text-gold font-serif text-2xl">{card.title[0]}</span>
-                  </div>
-                  <h3 className="font-serif text-2xl mb-3 text-gold">{card.title}</h3>
-                  <p className="text-cream/70 leading-relaxed">{card.copy}</p>
-                </div>
-              </AnimatedSection>
-            ))}
-          </div>
-          <AnimatedSection delay={0.5}>
-            <p className="text-center text-cream/50 text-sm italic mt-10 font-sans">
-              Pause. Ask. Verify. is the core of the Cyber Curiosity Mindset — the behavioral framework from Lakeidra's bestselling book.
-            </p>
-          </AnimatedSection>
-        </div>
-      </section>
-
-      {/* Section 7 — Services Preview */}
-      <section className="bg-cream">
-        <div className="container-page py-24 md:py-32">
-          <AnimatedSection className="text-center mb-16">
-            <p className="eyebrow mb-4">How We Work Together</p>
-            <h2 className="font-serif text-[32px] md:text-[48px] lg:text-[56px] leading-[1.15]">From the keynote to the boardroom.</h2>
-          </AnimatedSection>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {services.map((svc, i) => (
-              <AnimatedSection key={svc.title} delay={i * 0.1}>
-                <div className="bg-background rounded-lg p-8 h-full border border-gold/20 shadow-sm hover:shadow-md transition-shadow">
-                  <h3 className="font-serif text-2xl mb-3">{svc.title}</h3>
-                  <p className="text-muted-foreground leading-relaxed mb-6">{svc.desc}</p>
-                  <Link
-                    to={svc.link}
-                    className="text-gold font-semibold inline-flex items-center gap-1 hover:gap-2 transition-all text-sm"
-                  >
-                    {svc.cta}
-                  </Link>
-                </div>
-              </AnimatedSection>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Section 8 — Testimonials */}
-      <section className="bg-navy text-cream">
-        <div className="container-page py-24 md:py-32">
-          <AnimatedSection>
-            <p className="eyebrow mb-6">What Clients Say</p>
-          </AnimatedSection>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {testimonials.map((t, i) => (
-              <AnimatedSection key={i} delay={i * 0.1}>
-                <div className="bg-cream text-foreground rounded-lg p-8 h-full border-l-4 border-burgundy">
-                  <p className="text-muted-foreground leading-relaxed mb-6 italic">"{t.quote}"</p>
-                  <p className="text-gold font-semibold text-sm">{t.name}</p>
-                  <p className="text-muted-foreground text-xs">{t.title}</p>
-                </div>
-              </AnimatedSection>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Section 9 — The Curiosity Brief CTA (burgundy) */}
-      <section id="curiosity-brief" className="bg-burgundy text-cream">
-        <div className="container-page py-24 md:py-32 text-center max-w-[680px] mx-auto">
-          <AnimatedSection>
-            <h2 className="font-serif text-[32px] md:text-[48px] lg:text-[56px] leading-[1.15] mb-6">
-              Stay ahead of the threat — and the conversation.
-            </h2>
-            <p className="text-cream/80 text-lg leading-relaxed mb-10">
-              The Curiosity Brief is a newsletter for leaders who want to think clearly about cybersecurity — without wading through technical noise. Practical. Human. Written by Lakeidra every time.
-            </p>
-            <Button variant="burgundy" size="lg" asChild>
-              <a href="#curiosity-brief-subscribe">Subscribe to The Curiosity Brief <ArrowRight size={16} /></a>
-            </Button>
-          </AnimatedSection>
-        </div>
-      </section>
-
-      {/* Section 10 — Final CTA */}
-      <section className="bg-navy text-cream">
-        <div className="container-page py-24 md:py-32 text-center">
-          <AnimatedSection>
-            <h2 className="font-serif text-[32px] md:text-[48px] lg:text-[56px] leading-[1.15] mb-4">Ready to build something that lasts?</h2>
-            <p className="text-cream/70 text-lg mb-10">Every engagement begins with a conversation.</p>
-            <Button variant="hero-primary" size="lg" asChild>
-              <a href="https://calendly.com/podcast-lakeidra/discovery-call" target="_blank" rel="noopener noreferrer">
-                Schedule a Discovery Call <ArrowRight size={16} />
-              </a>
-            </Button>
           </AnimatedSection>
         </div>
       </section>

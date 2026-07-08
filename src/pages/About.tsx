@@ -3,138 +3,81 @@ import { Button } from "@/components/ui/button";
 import Layout from "@/components/Layout";
 import AnimatedSection from "@/components/AnimatedSection";
 import { ArrowRight } from "lucide-react";
-import lakeidraAbout from "@/assets/lakeidra-about.jpg";
+import lakeidraPhoto from "@/assets/lakeidra-about.jpg";
 import bookCover from "@/assets/cyber-curiosity-book.png";
+
+const pillars = [
+  {
+    name: "Advise",
+    desc: "Strategic guidance that translates technical reality into decisions leaders can actually make. Foresight audits, advisory retainers, board briefings, and program management.",
+  },
+  {
+    name: "Educate",
+    desc: "Training that changes behavior instead of checking boxes. Workshops, tabletop exercises, and curriculum delivered at national scale.",
+  },
+  {
+    name: "Build",
+    desc: "Durable capability your organization owns after we leave. Custom curriculum, licensed frameworks, and our proprietary nsite diagnostic platform.",
+  },
+];
 
 const About = () => {
   return (
     <Layout>
-      {/* Section 1 — Hero */}
+      {/* Hero */}
       <section className="bg-navy text-cream">
-        <div className="container-page py-24 md:py-32 text-center max-w-[800px] mx-auto">
+        <div className="container-page py-24 md:py-32 text-center max-w-[840px] mx-auto">
           <AnimatedSection>
-            <h1 className="font-serif text-[40px] md:text-5xl lg:text-[4.5rem] leading-[1.1] mb-4">
-              Helping Humans Understand Machines.
+            <p className="eyebrow mb-6">About The Cyber Consultant</p>
+            <h1 className="font-serif text-[40px] md:text-5xl lg:text-[4.5rem] leading-[1.1] mb-6">
+              We exist because technology
+              <br />
+              <em className="text-gold">outran understanding.</em>
             </h1>
-            <p className="text-cream/70 text-xl">The story behind The Cyber Consultant.</p>
+            <p className="text-cream/70 text-lg leading-relaxed max-w-[680px] mx-auto">
+              The Cyber Consultant, LLC is a foresight strategy and AI risk advisory firm headquartered in Birmingham, Alabama. We serve enterprise leaders and government agencies with one shared mission: helping humans understand machines.
+            </p>
           </AnimatedSection>
         </div>
       </section>
 
-      {/* Section 2 — Origin Story */}
+      {/* The problem we solve */}
       <section className="bg-cream">
-        <div className="container-page py-24 md:py-32 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+        <div className="container-page py-24 md:py-32 max-w-[860px]">
           <AnimatedSection>
-            <img
-              src={lakeidraAbout}
-              alt="Lakeidra Smith"
-              className="rounded-lg shadow-xl w-full object-cover aspect-[4/3]"
-            />
-          </AnimatedSection>
-          <AnimatedSection delay={0.15}>
-            <p className="eyebrow mb-4">The Founder</p>
-            <h2 className="font-serif text-[32px] md:text-[48px] leading-[1.15] mb-6">
-              She's been in the machine since childhood.
+            <p className="eyebrow mb-4 text-gold-dark">Why We Exist</p>
+            <h2 className="font-serif text-[32px] md:text-[44px] leading-[1.15] mb-6">
+              The Translation Gap is the most expensive problem nobody budgets for.
             </h2>
             <p className="text-muted-foreground text-[17px] leading-[1.7] mb-4">
-              Before Lakeidra Smith was a cybersecurity educator, she was a nine-year-old who broke her Christmas laptop out of curiosity — and fixed it. Before she was a keynote speaker, she was a fifteen-year-old charging neighbors for virus removal and website builds.
+              In every organization we've worked with, the same structural problem shows up: the people who understand the technology and the people accountable for the decisions are speaking two different languages. Technical teams brief. Leaders nod. Nothing translates. Then the AI rollout stalls, the security incident lands, or the modernization project runs over, and everyone wonders what went wrong.
             </p>
             <p className="text-muted-foreground text-[17px] leading-[1.7] mb-4">
-              That technical foundation — built through years of hands-on tinkering before she ever set foot in a classroom — is what makes her different. She doesn't translate cybersecurity into human language because she studied communications. She does it because she has lived on both sides of the screen, and she knows exactly where the gap lives.
-            </p>
-            <p className="text-foreground font-medium text-[17px]">Today, that gap is her life's work.</p>
-          </AnimatedSection>
-        </div>
-      </section>
-
-      {/* Section 3 — The Conviction */}
-      <section className="bg-navy text-cream">
-        <div className="container-page py-24 md:py-32 max-w-[680px] mx-auto">
-          <AnimatedSection>
-            <h2 className="font-serif text-[32px] md:text-[48px] leading-[1.15] mb-6">
-              A phone call. One sentence. A conviction.
-            </h2>
-            <p className="text-cream/80 text-[17px] leading-[1.7] mb-6">
-              Lakeidra was a college senior — working tech support by day, writing her first book by night — when she called her boss to resign. She was excited. The book was about cybersecurity and the way ordinary people had been left unprotected in a digital world designed to exploit them.
-            </p>
-            <p className="text-cream/80 text-[17px] leading-[1.7] mb-10">
-              Her boss was technical. Experienced. Someone she deeply respected. His response stopped her cold.
-            </p>
-          </AnimatedSection>
-          <AnimatedSection delay={0.15}>
-            <blockquote className="pull-quote py-8 my-10">
-              <p className="font-serif text-[28px] md:text-[36px] italic leading-[1.2] text-cream">
-                "Well, our data is already gone anyway. Who cares."
-              </p>
-            </blockquote>
-          </AnimatedSection>
-          <AnimatedSection delay={0.2}>
-            <p className="text-cream/80 text-[17px] leading-[1.7] mb-4">
-              That apathy — from someone who knew the systems, understood the threats, and had simply given up — clarified everything. If technically inclined people had resigned themselves to helplessness, what did everyone else have?
-            </p>
-            <p className="text-cream/80 text-[17px] leading-[1.7]">
-              The answer, Lakeidra decided, was a different conversation entirely. Not more software. Not more fear. A framework that treated people as capable of protecting themselves — and gave them the tools to do it. That conviction became <em>Cyber Curiosity</em>. And Cyber Curiosity became The Cyber Consultant.
-            </p>
-          </AnimatedSection>
-        </div>
-      </section>
-
-      {/* Section 4 — Values */}
-      <section className="bg-cream">
-        <div className="container-page py-24 md:py-32 max-w-[680px] mx-auto">
-          <AnimatedSection>
-            <p className="eyebrow mb-4">Why This Work Matters</p>
-            <h2 className="font-serif text-[32px] md:text-[48px] leading-[1.15] mb-6">Education is liberation.</h2>
-            <p className="text-muted-foreground text-[17px] leading-[1.7] mb-4">
-              Long before cybersecurity, there was a grandmother. A sharecropper's daughter who earned her master's degree during the civil rights era and taught special education for over 35 years in a community shaped by socioeconomic barriers.
-            </p>
-            <p className="text-muted-foreground text-[17px] leading-[1.7] mb-4">
-              She showed Lakeidra — through her own life — that access to knowledge changes what's possible. That belief runs through every program The Cyber Consultant builds, every workshop it delivers, every curriculum it designs.
+              What went wrong is the gap. We named it, we measure it, and we've built an entire firm around closing it.
             </p>
             <p className="text-muted-foreground text-[17px] leading-[1.7]">
-              Cybersecurity education has been gatekept for too long — treated as a technical specialty, delivered in a language that excludes the very people who need it most. The Cyber Consultant exists to change that.
+              That's why our work spans both the boardroom and the workforce, both the enterprise and the agency. The gap doesn't care about your org chart or your sector. Neither do we.
             </p>
           </AnimatedSection>
         </div>
       </section>
 
-      {/* Section 5 — The Company (dark background) */}
-      <section className="bg-navy text-cream">
-        <div className="container-page py-24 md:py-32 max-w-[680px] md:max-w-none mx-auto">
-          <AnimatedSection className="max-w-[680px]">
-            <p className="eyebrow mb-4">The Cyber Consultant LLC</p>
-            <h2 className="font-serif text-[32px] md:text-[48px] leading-[1.15] mb-6">
-              Built to close the gap between security expertise and the humans who need it.
+      {/* The model */}
+      <section className="bg-background">
+        <div className="container-page py-24 md:py-28">
+          <AnimatedSection>
+            <p className="eyebrow text-center mb-4 text-gold-dark">How We Work</p>
+            <h2 className="font-serif text-[30px] md:text-[42px] leading-[1.15] text-center mb-14">
+              Advise. Educate. Build.
             </h2>
-            <p className="text-cream/80 text-[17px] leading-[1.7] mb-4">
-              Founded in 2020 by Lakeidra Smith, The Cyber Consultant is a Birmingham-based cybersecurity education and strategic advisory firm. We work with corporate teams, conference organizers, L&D leaders, and executives who need a partner that combines deep subject matter expertise with the rare ability to make that expertise accessible to any audience.
-            </p>
-            <p className="text-cream/80 text-[17px] leading-[1.7] mb-4">
-              Every engagement is founder-led. Lakeidra personally delivers every keynote, every workshop, every advisory session. When you work with The Cyber Consultant, you work with Lakeidra — not a junior associate, not a subcontractor. Her.
-            </p>
-            <p className="text-cream/80 text-[17px] leading-[1.7] mb-12">
-              Every session is built on the Cyber Curiosity framework: Pause. Ask. Verify. Not a compliance checklist. A way of thinking.
-            </p>
           </AnimatedSection>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {[
-              {
-                title: "Featured At",
-                copy: "Dell Cybersecurity Summit · Sloss Tech · Elevate & Empower Tech Event · EdFarm · Correlation One",
-              },
-              {
-                title: "Clients & Learners",
-                copy: "5,000+ learners trained · Startups · SMBs · Nonprofits · Educational Institutions",
-              },
-              {
-                title: "Press",
-                copy: "New feature coming soon. Check back for updates.",
-              },
-            ].map((card, i) => (
-              <AnimatedSection key={card.title} delay={i * 0.1}>
-                <div className="bg-navy-light text-cream rounded-lg p-8 text-center h-full border border-gold/20">
-                  <p className="eyebrow mb-3">{card.title}</p>
-                  <p className="text-cream/70 text-sm leading-relaxed">{card.copy}</p>
+            {pillars.map((p, i) => (
+              <AnimatedSection key={p.name} delay={i * 0.08}>
+                <div className="bg-cream rounded-lg p-8 h-full border border-gold/20 text-center">
+                  <span className="block h-[2px] w-8 bg-gold mx-auto mb-5" aria-hidden="true" />
+                  <h3 className="font-serif text-[26px] mb-4">{p.name}</h3>
+                  <p className="text-muted-foreground text-[15px] leading-[1.7]">{p.desc}</p>
                 </div>
               </AnimatedSection>
             ))}
@@ -142,110 +85,108 @@ const About = () => {
         </div>
       </section>
 
-      {/* Section 6 — FACE Tomorrow™ Framework (burgundy background) */}
-      <section className="bg-burgundy text-cream">
+      {/* Meet the team */}
+      <section className="bg-navy text-cream">
         <div className="container-page py-24 md:py-32">
-          <AnimatedSection className="text-center mb-16 max-w-[800px] mx-auto">
-            <p className="eyebrow mb-4">The Leadership Framework</p>
-            <h2 className="font-serif text-[32px] md:text-[48px] lg:text-[56px] leading-[1.15] mb-4">
-              Leaders who refuse to be blindsided use a different framework.
+          <AnimatedSection>
+            <p className="eyebrow mb-4">Meet the Team</p>
+            <h2 className="font-serif text-[32px] md:text-[44px] leading-[1.15] mb-14 max-w-[720px]">
+              Small by design. Senior by default.
             </h2>
-            <p className="text-cream/80 text-lg">
-              FACE Tomorrow™ is the organizational framework Lakeidra brings to executive workshops and board briefings. It is not a checklist. It is a way of leading.
-            </p>
           </AnimatedSection>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              {
-                letter: "F",
-                title: "Foresight",
-                desc: "See the threat before it becomes a headline. Leaders who build foresight don't wait for their CISO to brief them — they ask the right questions first.",
-              },
-              {
-                letter: "A",
-                title: "Alignment",
-                desc: "Security is not an IT function. It is a business function. Alignment means every department understands its role in the organization's risk posture.",
-              },
-              {
-                letter: "C",
-                title: "Curiosity",
-                desc: "The organizations that get breached are often the ones that stopped asking questions. Curiosity is not paranoia — it is leadership.",
-              },
-              {
-                letter: "E",
-                title: "Execution",
-                desc: "Strategy without action is a document. Execution means your team knows exactly what to do when the moment arrives.",
-              },
-            ].map((pillar, i) => (
-              <AnimatedSection key={pillar.letter} delay={i * 0.1}>
-                <div className="bg-cream/10 border border-cream/20 rounded-lg p-8 h-full">
-                  <span className="font-serif text-4xl text-gold">{pillar.letter}</span>
-                  <h3 className="font-semibold text-xl mb-3 mt-2">{pillar.title}</h3>
-                  <p className="text-cream/80 text-sm leading-relaxed">{pillar.desc}</p>
-                </div>
-              </AnimatedSection>
-            ))}
-          </div>
-          <AnimatedSection delay={0.5}>
-            <p className="text-center text-cream/50 text-xs italic mt-10 font-sans">
-              FACE Tomorrow™ is a registered framework of The Cyber Consultant LLC.
-            </p>
-          </AnimatedSection>
-        </div>
-      </section>
 
-      {/* Section 7 — Book Callout (burgundy background) */}
-      <section className="bg-burgundy text-cream border-t border-cream/10">
-        <div className="container-page py-24 md:py-32">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            <AnimatedSection className="flex justify-center">
+          {/* Founder */}
+          <AnimatedSection>
+            <div className="grid grid-cols-1 lg:grid-cols-[320px_1fr] gap-10 items-start mb-12 border border-gold/30 rounded-lg p-8 md:p-12 bg-navy-light">
               <img
-                src={bookCover}
-                alt="Cyber Curiosity book by Lakeidra Smith"
-                className="max-w-[280px] md:max-w-[320px] w-full drop-shadow-2xl"
+                src={lakeidraPhoto}
+                alt="Lakeidra Smith, Founder & CEO of The Cyber Consultant"
+                className="rounded-lg w-full max-w-[320px] object-cover aspect-[3/4] mx-auto lg:mx-0"
               />
-            </AnimatedSection>
-            <AnimatedSection delay={0.15}>
-              <p className="eyebrow mb-4">The Book</p>
-              <h2 className="font-serif text-[32px] md:text-[48px] leading-[1.15] mb-6">
-                Start here. Everything else builds from this.
-              </h2>
-              <p className="text-cream/90 text-[17px] leading-[1.7] mb-4">
-                <em>Cyber Curiosity: A Beginner's Guide to Cybersecurity</em> is the book Lakeidra wrote for everyone who ever felt like cybersecurity was someone else's job. It introduces the Cyber Curiosity Mindset — <strong className="text-gold">Pause. Ask. Verify.</strong> — the same framework that sits at the foundation of every program, workshop, and keynote The Cyber Consultant delivers.
-              </p>
-              <p className="text-cream/90 text-[17px] leading-[1.7] mb-8">
-                Available individually or in bulk for workshops and conference use.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Button variant="burgundy" size="lg" asChild>
-                  <a href="https://www.amazon.com/Cyber-Curiosity-Beginners-Cybersecurity-Yourself/dp/1636768695/" target="_blank" rel="noopener noreferrer">
-                    Get the Book <ArrowRight size={16} />
+              <div>
+                <h3 className="font-serif text-[28px] md:text-[32px] mb-1">Lakeidra Smith</h3>
+                <p className="text-gold text-sm font-semibold mb-5 uppercase tracking-wider">Founder & CEO</p>
+                <p className="text-cream/75 text-[16px] leading-[1.7] mb-4">
+                  Lakeidra is a foresight strategist, cybersecurity educator, and the bestselling author of Cyber Curiosity: A Beginner's Guide to Cybersecurity. Before founding TCC, she built and scaled a national cybersecurity training program serving more than 5,000 learners, including Department of Defense cohorts, taking its NPS from 22 to 79 and more than doubling certification pass rates.
+                </p>
+                <p className="text-cream/75 text-[16px] leading-[1.7] mb-6">
+                  She created the FACE Tomorrow™ methodology and the nsite diagnostic platform, holds CompTIA Security+, serves on the WiCyS Central Alabama Advisory Board, and speaks nationally on AI readiness and the translation gap. Her full story, book, and speaking work live on her personal site.
+                </p>
+                <Button variant="hero-primary" asChild>
+                  <a href="https://lakeidra.com" target="_blank" rel="noopener noreferrer">
+                    Visit lakeidra.com <ArrowRight className="ml-1" size={16} />
                   </a>
                 </Button>
-                <Button variant="hero-ghost" size="lg" asChild>
-                  <Link to="/contact">Inquire About Bulk Orders</Link>
-                </Button>
+              </div>
+            </div>
+          </AnimatedSection>
+
+          {/* Team members */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <AnimatedSection delay={0.08}>
+              <div className="border border-gold/30 rounded-lg p-8 bg-navy-light h-full">
+                <h3 className="font-serif text-[24px] mb-1">Jonathan Clark</h3>
+                <p className="text-gold text-sm font-semibold mb-4 uppercase tracking-wider">Technical Lead</p>
+                <p className="text-cream/75 text-[15px] leading-[1.7]">
+                  Jonathan anchors TCC's technical delivery capability across cybersecurity, cloud, and IT modernization. His enterprise and defense background powers the firm's contract-scale delivery work, from Zero Trust architecture to large-scale migration programs.
+                </p>
+              </div>
+            </AnimatedSection>
+            <AnimatedSection delay={0.16}>
+              <div className="border border-gold/30 rounded-lg p-8 bg-navy-light h-full flex flex-col justify-center">
+                <h3 className="font-serif text-[24px] mb-3">A vetted partner network</h3>
+                <p className="text-cream/75 text-[15px] leading-[1.7]">
+                  Beyond our core team, TCC delivers through an established network of cleared, credentialed professionals, letting us staff to contract requirements on award without compromising on seniority or quality.
+                </p>
               </div>
             </AnimatedSection>
           </div>
         </div>
       </section>
 
-      {/* Section 8 — CTA */}
-      <section className="bg-navy text-cream">
-        <div className="container-page py-24 md:py-32 text-center">
+      {/* Credentials & the book */}
+      <section className="bg-cream">
+        <div className="container-page py-24 md:py-28 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <AnimatedSection>
-            <h2 className="font-serif text-[32px] md:text-[48px] lg:text-[56px] leading-[1.15] mb-6">Let's build something together.</h2>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button variant="hero-primary" size="lg" asChild>
-                <a href="https://calendly.com/podcast-lakeidra/discovery-call" target="_blank" rel="noopener noreferrer">
-                  Schedule a Discovery Call <ArrowRight size={16} />
-                </a>
-              </Button>
-              <Button variant="hero-ghost" size="lg" asChild>
-                <Link to="/services">See Our Services</Link>
-              </Button>
-            </div>
+            <p className="eyebrow mb-4 text-gold-dark">Credentials & Roots</p>
+            <h2 className="font-serif text-[30px] md:text-[38px] leading-[1.15] mb-6">
+              A certified woman-owned firm with a published point of view.
+            </h2>
+            <p className="text-muted-foreground text-[17px] leading-[1.7] mb-4">
+              TCC is a certified Woman-Owned Small Business (WOSB) and Economically Disadvantaged Woman-Owned Small Business (EDWOSB), performing as prime and subcontractor for federal, state, and local government.
+            </p>
+            <p className="text-muted-foreground text-[17px] leading-[1.7] mb-8">
+              Our approach isn't a pitch deck invention. It's documented in Cyber Curiosity, our founder's bestselling book, and refined through years of teaching thousands of people to stop fearing technology and start questioning it.
+            </p>
+            <Button variant="outline" className="border-navy/30 hover:bg-navy hover:text-cream" asChild>
+              <Link to="/government">See Government Credentials</Link>
+            </Button>
+          </AnimatedSection>
+          <AnimatedSection delay={0.15} className="flex justify-center">
+            <img
+              src={bookCover}
+              alt="Cyber Curiosity: A Beginner's Guide to Cybersecurity, by Lakeidra Smith"
+              className="max-w-[260px] w-full rounded-lg shadow-2xl"
+            />
+          </AnimatedSection>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="bg-navy text-cream">
+        <div className="container-page py-20 md:py-24 text-center max-w-[680px] mx-auto">
+          <AnimatedSection>
+            <h2 className="font-serif text-[28px] md:text-[40px] leading-[1.15] mb-4">
+              Work with a firm that speaks both languages.
+            </h2>
+            <p className="text-cream/70 text-[16px] leading-[1.7] mb-8">
+              Enterprise or agency, boardroom or workforce, the first step is the same.
+            </p>
+            <Button variant="hero-primary" size="lg" asChild>
+              <a href="https://calendly.com/podcast-lakeidra/discovery-call" target="_blank" rel="noopener noreferrer">
+                Schedule a Discovery Call
+              </a>
+            </Button>
           </AnimatedSection>
         </div>
       </section>

@@ -14,7 +14,7 @@ const Footer = () => {
             </div>
             <p className="text-sm italic text-gold mb-2">Helping Humans Understand Machines.</p>
             <p className="text-sm leading-relaxed">
-              Cybersecurity education and strategic advisory based in Birmingham, Alabama.
+              Foresight strategy, AI readiness, and workforce training for enterprises and government. Birmingham, Alabama.
             </p>
           </div>
 
@@ -25,23 +25,21 @@ const Footer = () => {
               <Link to="/" className="text-sm hover:text-gold transition-colors">Home</Link>
               <Link to="/about" className="text-sm hover:text-gold transition-colors">About</Link>
               <Link to="/services" className="text-sm hover:text-gold transition-colors">Services</Link>
+              <Link to="/government" className="text-sm hover:text-gold transition-colors">Government</Link>
               <Link to="/contact" className="text-sm hover:text-gold transition-colors">Contact</Link>
             </div>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h5 className="font-semibold text-cream mb-3 text-sm uppercase tracking-wider">Quick Links</h5>
+            <h5 className="font-semibold text-cream mb-3 text-sm uppercase tracking-wider">Services</h5>
             <div className="flex flex-col gap-2 text-sm">
-              <a href="https://www.amazon.com/Cyber-Curiosity-Beginners-Cybersecurity-Yourself/dp/1636768695/" target="_blank" rel="noopener noreferrer" className="hover:text-gold transition-colors">
-                Cyber Curiosity Book
-              </a>
-              <a href="https://calendly.com/podcast-lakeidra/discovery-call" target="_blank" rel="noopener noreferrer" className="hover:text-gold transition-colors">
-                Schedule a Discovery Call
-              </a>
-              <a href="#curiosity-brief-subscribe" className="hover:text-gold transition-colors">
-                The Curiosity Brief
-              </a>
+              <Link to="/services/ai-readiness" className="hover:text-gold transition-colors">AI Readiness & Adoption</Link>
+              <Link to="/services/advisory" className="hover:text-gold transition-colors">Advisory & Foresight</Link>
+              <Link to="/services/workforce-development" className="hover:text-gold transition-colors">Workforce Development</Link>
+              <Link to="/services/cybersecurity-modernization" className="hover:text-gold transition-colors">Cybersecurity & IT Modernization</Link>
+              <Link to="/ai-readiness-check" className="hover:text-gold transition-colors">Free AI Readiness Check</Link>
+              <a href="/TCC-Capability-Statement.pdf" target="_blank" rel="noopener noreferrer" className="hover:text-gold transition-colors">Capability Statement (PDF)</a>
             </div>
           </div>
 
@@ -78,7 +76,7 @@ const Footer = () => {
           </div>
         </div>
         <div className="border-t border-cream/10 pt-6 text-center text-xs text-cream/40">
-          © 2025 The Cyber Consultant LLC. All rights reserved.
+          © 2026 The Cyber Consultant, LLC. All rights reserved.
         </div>
       </div>
     </footer>
